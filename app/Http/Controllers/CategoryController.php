@@ -86,7 +86,7 @@ class CategoryController extends Controller
      */
     public function edit(category $category)
     {
-       return view('category.edit',compact('Category'));
+       return view('category.edit',compact('category'));
     }
 
     /**
@@ -96,13 +96,13 @@ class CategoryController extends Controller
      * @param  \App\Models\category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, category $category)
+    public function update(Request $request, Category $category)
     {
         request()->validate([
             'name' => 'required',
             'detail' => 'required',
         ]); 
-        $Category->update($request->all());    
+        $category->update($request->all());    
 
         return redirect()->route('category.index')
                         ->with('success','Category updated successfully');
