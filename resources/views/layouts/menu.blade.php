@@ -7,13 +7,38 @@
 </li>
 
 @guest
-<li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
-<li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
+    <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
+    <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
 @else
 
-<li><a class="nav-link" href="{{ route('users.index') }}">Manage Users</a></li>
-<li><a class="nav-link" href="{{ route('roles.index') }}">Manage Role</a></li>
-<li><a class="nav-link" href="{{ route('category.index') }}">Manage Product</a></li>
- 
+    <li class="nav-item    has-treeview  {{ request()->is('settings*') ? 'menu-open' : '' }}">
+        <a href="#" class="nav-link  ">
+            <i class="nav-icon text-yellow fas fa fa-cog"></i>
+            <p>Settings</p>
+        </a>
+        {{--        @can('user-list')--}}
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="{{ route('users.index') }}"
+                   class="nav-link {{  request()->is('settings/users') ? 'active' : '' }}  ">
+                    <i
+                        class="far fa-user nav-icon text-yellow"></i>
+                    <p>Users </p>
+                </a>
+            </li>
+        </ul>
+        {{--        @endcan--}}
+        {{--        @can('role-list')--}}
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="{{ route('roles.index') }}"
+                   class="nav-link {{  request()->is('settings/roles*') ? 'active' : '' }}  ">
+                    <i
+                        class="far fa-address-card nav-icon text-yellow"></i>
+                    <p>User Roles </p>
+                </a>
+            </li>
+        </ul>
+    {{--@endcan--}}
 
 @endguest

@@ -1,99 +1,93 @@
 @extends('layouts.app')
 
-
 @section('content')
+    <div class="container-fluid">
 
-<div class="row">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Edit Role </h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item ">Roles</li>
+                            <li class="breadcrumb-item active">Edit</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
 
-    <div class="col-lg-12 margin-tb">
+        <div>
 
-        <div class="pull-left">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Edit Role</div>
+                    <div class="card-tools">
+                        <a href="{{ URL::previous() }}" class="btn btn-sm btn-dark">Back</a>
+                    </div>
+                </div>
 
-            <h2>Edit Role</h2>
+                <form role="form" method="POST" action="{{ route('roles.update',$role->id) }}"
+                      enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="card-body">
 
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="name">Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="name"
+                                       class="form-control   @error('name') is-invalid @enderror"
+                                       id="name"
+                                       placeholder="Name" value="{{$role->name}}">
+                                @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="permission">Permission</label>
+                            <div class="col-sm-9">
+                                @foreach($permission as $value)
+                                    <label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}
+                                        {{ $value->name }}</label>
+                                    <br/>
+                                @endforeach
+
+                                @error('permission')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit"
+                                class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+
+
+            </div>
         </div>
-
-        <div class="pull-right">
-
-            <a class="btn btn-primary" href="{{ route('roles.index') }}"> Back</a>
-
-        </div>
-
     </div>
-
-</div>
-
-
-@if (count($errors) > 0)
-
-    <div class="alert alert-danger">
-
-        <strong>Whoops!</strong> There were some problems with your input.<br><br>
-
-        <ul>
-
-        @foreach ($errors->all() as $error)
-
-            <li>{{ $error }}</li>
-
-        @endforeach
-
-        </ul>
-
-    </div>
-
-@endif
-
-
-{!! Form::model($role, ['method' => 'PATCH','route' => ['roles.update', $role->id]]) !!}
-
-<div class="row">
-
-    <div class="col-xs-12 col-sm-12 col-md-12">
-
-        <div class="form-group">
-
-            <strong>Name:</strong>
-
-            {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
-
-        </div>
-
-    </div>
-
-    <div class="col-xs-12 col-sm-12 col-md-12">
-
-        <div class="form-group">
-
-            <strong>Permission:</strong>
-
-            <br/>
-
-            @foreach($permission as $value)
-
-                <label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id, $rolePermissions) ? true : false, array('class' => 'name')) }}
-
-                {{ $value->name }}</label>
-
-            <br/>
-
-            @endforeach
-
-        </div>
-
-    </div>
-
-    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-
-    </div>
-
-</div>
-
-{!! Form::close() !!}
-
-
 @endsection
 
-<p class="text-center text-primary"><small>Tutorial by ItSolutionStuff.com</small></p>
+@section('third_party_stylesheets')
+    <link rel="stylesheet" href="{{ asset('plugin/flowbite/flowbite.min.css') }}"/>
+@stop
+
+@section('third_party_scripts')
+    <script src="{{ asset('plugin/flowbite/flowbite.js') }}"></script>
+@stop
