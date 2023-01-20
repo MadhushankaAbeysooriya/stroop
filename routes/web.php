@@ -17,7 +17,7 @@ use App\Http\Controllers\CategoryController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
@@ -25,6 +25,8 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth']], function() {
+    Route::get('/profile', [App\Http\Controllers\HomeController::class, 'changePassword'])->name('profile');
+    Route::post('/profile', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('update-password');
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('category', CategoryController::class);
