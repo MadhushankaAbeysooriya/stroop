@@ -11,6 +11,31 @@
     <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
 @else
 
+    <li class="nav-item    has-treeview  {{ request()->is('establishment*') ? 'menu-open' : '' }}">
+        <a href="#" class="nav-link  ">
+            <i class="nav-icon text-pink fas fa fa-building"></i>
+            <p>Establishment</p>
+        </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="{{ route('establishment.create') }}"
+                   class="nav-link {{  request()->is('establishment/create*') ? 'active' : '' }}  ">
+                    <i
+                        class="far fa-circle nav-icon text-pink"></i>
+                    <p>New Establishment </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('establishment.index') }}"
+                   class="nav-link   {{  request()->is('establishment') ? 'active' : '' }} ">
+                    <i
+                        class="far fa-circle nav-icon text-pink"></i>
+                    <p>All Establishment</p>
+                </a>
+            </li>
+        </ul>
+    </li>
+
     <li class="nav-item    has-treeview  {{ request()->is('settings*') ? 'menu-open' : '' }}">
         <a href="#" class="nav-link  ">
             <i class="nav-icon text-yellow fas fa fa-cog"></i>
@@ -39,7 +64,7 @@
                 </a>
             </li>
         </ul>
-    {{--@endcan--}}
+        {{--@endcan--}}
 
         <ul class="nav nav-treeview">
             <li class="nav-item">
