@@ -50,7 +50,7 @@ class VoteController extends Controller
     public function store(VoteRequest $request)
     {
         Vote::create(['vote_code' => $request->vote_code, 'description' => $request->description]);
-        return redirect()->route('supplier.index')
+        return redirect()->route('vote.index')
             ->with('message', 'Vote created successfully.');
     }
 
