@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EstablishmentController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -29,6 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/profile', [App\Http\Controllers\HomeController::class, 'changePassword'])->name('profile');
     Route::post('/profile', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('update-password');
     Route::resource('establishment', EstablishmentController::class);
+    Route::resource('supplier', SupplierController::class);
     Route::prefix('settings')->group(function () {
         Route::resource('roles', RoleController::class);
         Route::resource('users', UserController::class);

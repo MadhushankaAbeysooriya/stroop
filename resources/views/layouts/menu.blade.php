@@ -11,6 +11,31 @@
     <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
 @else
 
+    <li class="nav-item    has-treeview  {{ request()->is('supplier*') ? 'menu-open' : '' }}">
+        <a href="#" class="nav-link  ">
+            <i class="nav-icon text-lime fas fa fa-truck"></i>
+            <p>Supplier</p>
+        </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="{{ route('supplier.create') }}"
+                   class="nav-link {{  request()->is('supplier/create*') ? 'active' : '' }}  ">
+                    <i
+                        class="far fa-circle nav-icon text-lime"></i>
+                    <p>New Supplier </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('supplier.index') }}"
+                   class="nav-link   {{  request()->is('supplier') ? 'active' : '' }} ">
+                    <i
+                        class="far fa-circle nav-icon text-lime"></i>
+                    <p>All Suppliers</p>
+                </a>
+            </li>
+        </ul>
+    </li>
+
     <li class="nav-item    has-treeview  {{ request()->is('establishment*') ? 'menu-open' : '' }}">
         <a href="#" class="nav-link  ">
             <i class="nav-icon text-pink fas fa fa-building"></i>
