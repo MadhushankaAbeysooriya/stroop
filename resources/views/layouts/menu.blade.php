@@ -47,7 +47,7 @@
                    class="nav-link {{  request()->is('settings/profile*') ? 'active' : '' }}  ">
                     <i
                         class="far fa-user nav-icon text-yellow"></i>
-                    <p>User Roles </p>
+                    <p>Change Password </p>
                 </a>
             </li>
         </ul>
