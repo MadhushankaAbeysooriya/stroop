@@ -11,6 +11,31 @@
     <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
 @else
 
+    <li class="nav-item    has-treeview  {{ request()->is('purchase*') ? 'menu-open' : '' }}">
+        <a href="#" class="nav-link  ">
+            <i class="nav-icon text-orange fas fa fa-shopping-cart"></i>
+            <p>Purchase Orders</p>
+        </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="{{ route('purchase.create') }}"
+                   class="nav-link {{  request()->is('purchase/create*') ? 'active' : '' }}  ">
+                    <i
+                        class="far fa-circle nav-icon text-orange"></i>
+                    <p>New Purchase Order</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('purchase.index') }}"
+                   class="nav-link   {{  request()->is('purchase') ? 'active' : '' }} ">
+                    <i
+                        class="far fa-circle nav-icon text-orange"></i>
+                    <p>All Purchase Order</p>
+                </a>
+            </li>
+        </ul>
+    </li>
+
     <li class="nav-item    has-treeview  {{ request()->is('supplier*') ? 'menu-open' : '' }}">
         <a href="#" class="nav-link  ">
             <i class="nav-icon text-lime fas fa fa-truck"></i>
