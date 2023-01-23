@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\DataTables\PurchaseDataTable;
 use App\Http\Requests\PurchaseRequest;
+use App\Models\Establishment;
 use App\Models\Purchase;
+use App\Models\Supplier;
+use App\Models\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +41,11 @@ class PurchaseController extends Controller
      */
     public function create()
     {
-        return view('purchase.create');
+        $suplier = Supplier::all();
+        $establisments = Establishment::all();
+        $votes = Vote::all();
+
+        return view('purchase.create', compact('suplier', 'establisments','votes'));
     }
 
     /**
