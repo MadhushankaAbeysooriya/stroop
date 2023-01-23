@@ -36,6 +36,31 @@
         </ul>
     </li>
 
+    <li class="nav-item    has-treeview  {{ request()->is('vote*') ? 'menu-open' : '' }}">
+        <a href="#" class="nav-link  ">
+            <i class="nav-icon text-blue fas fa fa-ticket-alt"></i>
+            <p>Vote</p>
+        </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="{{ route('vote.create') }}"
+                   class="nav-link {{  request()->is('vote/create*') ? 'active' : '' }}  ">
+                    <i
+                        class="far fa-circle nav-icon text-blue"></i>
+                    <p>New Vote Head </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('vote.index') }}"
+                   class="nav-link   {{  request()->is('vote') ? 'active' : '' }} ">
+                    <i
+                        class="far fa-circle nav-icon text-blue"></i>
+                    <p>All Vote Head</p>
+                </a>
+            </li>
+        </ul>
+    </li>
+
     <li class="nav-item    has-treeview  {{ request()->is('establishment*') ? 'menu-open' : '' }}">
         <a href="#" class="nav-link  ">
             <i class="nav-icon text-pink fas fa fa-building"></i>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EstablishmentController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -31,6 +32,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/profile', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('update-password');
     Route::resource('establishment', EstablishmentController::class);
     Route::resource('supplier', SupplierController::class);
+    Route::resource('vote', VoteController::class);
     Route::prefix('settings')->group(function () {
         Route::resource('roles', RoleController::class);
         Route::resource('users', UserController::class);
