@@ -89,42 +89,13 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        $establisments = Establishment::where('active', 1)->get();
-        $categories = Category::where('active', 1)->get();
+        $stores = Store::all();
+        $icts = ICTCategory::all();
+        $equipments = Equipment::all();
+        $titles = Title::all();
+        $mesures = MesureUnit::all();
 
-        $parentCategories = null;
-        $subCategories = null;
-        $childCategories = null;
-        $subchildCategories = null;
-
-        $parentid = 0;
-        $subCategory = null;
-        $childCategory = null;
-        $subchildCategory = null;
-
-        $hasCategory = $item->categories()->get();
-        $parentCategories = Category::where('parent_id', '=', 0)->where('establishment_id', empty($request->establishment_id) ? Auth::user()->establishment_id : $request->establishment_id)->get();
-
-        if ($hasCategory->count() > 0) {
-            $parentid = $parentCategories->intersect($hasCategory)->first()->id;
-
-            if ($parentid !== 0) {
-                $subCategories = Category::where('parent_id', '=', $parentid)->where('establishment_id', empty($request->establishment_id) ? Auth::user()->establishment_id : $request->establishment_id)->get();
-                $subCategory = $subCategories->intersect($hasCategory)->first();
-                if (isset($subCategory)) {
-                    $childCategories = Category::where('parent_id', '=', $subCategory->id)->where('establishment_id', empty($request->establishment_id) ? Auth::user()->establishment_id : $request->establishment_id)->get();
-                    $childCategory = $childCategories->intersect($hasCategory)->first();
-                    if (isset($childCategory)) {
-                        $subchildCategories = Category::where('parent_id', '=', $childCategory->id)->where('establishment_id', empty($request->establishment_id) ? Auth::user()->establishment_id : $request->establishment_id)->get();
-                        $subchildCategory = $subchildCategories->intersect($hasCategory)->first();
-                    }
-                }
-            }
-
-        }
-
-        $measureUnits = MeasureUnit::where('active', 1)->where('establishment_id', $item->establishment_id)->get();
-        return view('item.edit', compact('item', 'categories', 'measureUnits', 'subchildCategories', 'subchildCategory', 'establisments', 'parentCategories', 'subCategories', 'childCategory', 'childCategories', 'parentid', 'subCategory'));
+        return view('item.edit', compact('item', 'stores', 'icts', 'equipments', 'titles', 'mesures'));
     }
 
     /**
@@ -136,32 +107,13 @@ class ItemController extends Controller
      */
     public function update(ItemRequest $request, Item $item)
     {
-//        $request->validate(['name' => 'required|unique:items,name,establishment_id']);
-
-        $request->validate(['name' => ['required', 'max:255', Rule::unique('items')->where(function ($query) use ($item, $request) {
-            return $query->where('establishment_id', $request->establishment_id)->where('id', '!=', $item->id);
-        })],]);
-
-        $item->update(['name' => $request->name, 'establishment_id' => empty($request->establishment_id) ? Auth::user()->establishment_id : $request->establishment_id, 'code' => $request->code,
-            'measure_unit_id' => $request->measure_unit_id, 'latest_user_tbl_id' => Auth::user()->id, 'latest_ip' => $request->ip(), 'active' => empty($request->active) ? 0 : $request->active]);
-
-
-        $categories = [];
-        if (isset($request->category_id)) {
-            $categories[] = $request->category_id;
+        $itemData = $request->all();
+        if ($request->category_type == 1) {
+            $itemData['is_spare'] = 1;
         }
-        if (isset($request->parent_id)) {
-            $categories[] = $request->parent_id;
-        }
-        if (isset($request->child_id)) {
-            $categories[] = $request->child_id;
-        }
-        if (isset($request->sub_child_id)) {
-            $categories[] = $request->sub_child_id;
-        }
+        $itemData['Item_Code'] = 'aaa';
 
-
-        $item->categories()->sync($categories);
+        $item->update($itemData);
 
         return redirect()->route('item.index')
             ->with('message', 'Item update successfully.');

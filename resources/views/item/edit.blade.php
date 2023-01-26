@@ -24,7 +24,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Edit {{ $item->name }}</div>
+                    <div class="card-title">Edit {{ $item->Item_Type }}</div>
                     <div class="card-tools">
                         <a href="{{ URL::previous() }}" class="btn btn-sm btn-dark">Back</a>
                     </div>
@@ -37,47 +37,18 @@
                     @method('PUT')
                     <div class="card-body">
 
-                        @can('super-admin')
-                            <div class="form-group row">
-                                <label class="col-sm-3" for="establishment_id">Establishment</label>
-                                <div class="col-sm-9">
-                                    <select required name="establishment_id" id="establishment_id"
-                                            class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        @if(isset($item->establishment->id))
-                                            @foreach($establisments as $establisment)
-                                                <option
-                                                    @selected($item->establishment->id == $establisment->id)  value="{{$establisment->id}}">{{$establisment->name}}</option>
-                                            @endforeach
-                                        @else
-                                            <option selected value="">Choose a Establishment</option>
-                                            @foreach($establisments as $establisment)
-                                                <option value="{{$establisment->id}}">{{$establisment->name}}</option>
-                                            @endforeach
-                                        @endif
-                                    </select>
-                                    @error('establishment_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-                        @endcan
-
                         <div class="form-group row">
-                            <label class="col-sm-3" for="category_id">Parent Category</label>
+                            <label class="col-sm-3" for="store_id">Relevent Stores</label>
                             <div class="col-sm-9">
-                                <select name="category_id" id="category_id"
+                                <select required name="store_id" id="store_id"
                                         class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected value=" ">Root</option>
-                                    @if(isset($parentCategories))
-                                        @foreach($parentCategories as $categoryItem)
-                                            <option
-                                                @selected($parentid == $categoryItem->id)  value="{{$categoryItem->id}}">{{$categoryItem->name}}</option>
-                                        @endforeach
-                                    @endif
+                                    <option selected value="">Choose a Relevent Store</option>
+                                    @foreach($stores as $store)
+                                        <option
+                                            @selected($store->id == $item->store_id) value="{{$store->id}}">{{$store->store_name}}</option>
+                                    @endforeach
                                 </select>
-                                @error('category_id')
+                                @error('store_id')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -86,20 +57,17 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-3" for="parent_id">Sub Category</label>
+                            <label class="col-sm-3" for="ict">ICT Category </label>
                             <div class="col-sm-9">
-                                <select name="parent_id" id="parent_id"
+                                <select required name="ict" id="ict"
                                         class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected value="">Choose a Category</option>
-                                    @if(isset($subCategories))
-                                        @foreach($subCategories as $categoryItem)
-                                            <option
-                                                @selected(isset($subCategory->id) && $subCategory->id == $categoryItem->id)  value="{{$categoryItem->id}}">{{$categoryItem->name}}</option>
-                                        @endforeach
-                                    @endif
-
+                                    <option selected value="">Choose a ICT Category</option>
+                                    @foreach($icts as $itemData)
+                                        <option
+                                            @selected($itemData->id == $item->store_id) value="{{$itemData->id}}">{{$itemData->Category_Name}}</option>
+                                    @endforeach
                                 </select>
-                                @error('parent_id')
+                                @error('ict')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -108,19 +76,17 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-3" for="child_id">Child Category</label>
+                            <label class="col-sm-3" for="category_type">Equipment Type </label>
                             <div class="col-sm-9">
-                                <select name="child_id" id="child_id"
+                                <select required name="category_type" id="category_type"
                                         class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected value="">Choose a Category</option>
-                                    @if(isset($childCategories))
-                                        @foreach($childCategories as $categoryItem)
-                                            <option
-                                                @selected(isset($childCategory->id) && $childCategory->id == $categoryItem->id) value="{{$categoryItem->id}}">{{$categoryItem->name}}</option>
-                                        @endforeach
-                                    @endif
+                                    <option selected value="">Choose a Equipment Type</option>
+                                    @foreach($equipments as $itemData)
+                                        <option
+                                            @selected($itemData->id == $item->category_type) value="{{$itemData->id}}">{{$itemData->Type_Name}}</option>
+                                    @endforeach
                                 </select>
-                                @error('child_id')
+                                @error('category_type')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -129,19 +95,17 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-3" for="sub_child_id">Sub Child Category</label>
+                            <label class="col-sm-3" for="title_no">Title Name</label>
                             <div class="col-sm-9">
-                                <select name="sub_child_id" id="sub_child_id"
+                                <select required name="title_no" id="title_no"
                                         class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected value="">Choose a Category</option>
-                                    @if(isset($subchildCategories))
-                                        @foreach($subchildCategories as $categoryItem)
-                                            <option
-                                                @selected(isset($subchildCategory->id) && $subchildCategory->id == $categoryItem->id) value="{{$categoryItem->id}}">{{$categoryItem->name}}</option>
-                                        @endforeach
-                                    @endif
+                                    <option selected value="">Choose a Title</option>
+                                    @foreach($titles as $itemData)
+                                        <option
+                                            @selected($itemData->id == $item->title_no) value="{{$itemData->id}}">{{$itemData->title_name}}</option>
+                                    @endforeach
                                 </select>
-                                @error('sub_child_id')
+                                @error('title_no')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -150,12 +114,12 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-3" for="name">Name</label>
+                            <label class="col-sm-3" for="Item_Type">Item Name</label>
                             <div class="col-sm-9">
-                                <input type="text" name="name"
-                                       class="form-control   @error('name') is-invalid @enderror" id="name"
-                                       placeholder="Name" value="{{ $item->name }}">
-                                @error('name')
+                                <input type="text" name="Item_Type"
+                                       class="form-control   @error('Item_Type') is-invalid @enderror" id="Item_Type"
+                                       placeholder="Name" value="{{ $item->Item_Type }}">
+                                @error('Item_Type')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -164,12 +128,12 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-3" for="code">Item Code</label>
-                            <div class="col-sm-9">
-                                <input readonly type="text" name="code"
-                                       class="form-control   @error('code') is-invalid @enderror" id="code"
-                                       placeholder="Code" value="{{ $item->code }}">
-                                @error('code')
+                            <label class="col-sm-3" for="Leger_No">Leger Card No</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="Leger_No"
+                                       class="form-control   @error('Leger_No') is-invalid @enderror" id="Leger_No"
+                                       placeholder="Leger Card No" value="{{ $item->Leger_No }}">
+                                @error('Leger_No')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -178,24 +142,13 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-3" for="measure_unit_id">Measure Unit</label>
-                            <div class="col-sm-9">
-                                <select required name="measure_unit_id" id="measure_unit_id"
-                                        class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    @if($item->measure_unit->id)
-                                        @foreach($measureUnits as $measureUnit)
-                                            <option
-                                                @selected($item->measure_unit->id == $measureUnit->id) value="{{$measureUnit->id}}">{{$measureUnit->abbreviation}}</option>
-                                        @endforeach
-                                    @else
-                                        <option selected>Choose a measure unit</option>
-                                        @foreach($measureUnits as $measureUnit)
-                                            <option value="{{$measureUnit->id}}">{{$measureUnit->abbreviation}}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-
-                                @error('code')
+                            <label class="col-sm-3" for="Make_Country">Manufactured Country </label>
+                            <div class="col-sm-8">
+                                <input type="text" name="Make_Country"
+                                       class="form-control   @error('Make_Country') is-invalid @enderror"
+                                       id="Make_Country"
+                                       placeholder="Manufactured Country" value="{{ $item->Make_Country }}">
+                                @error('Make_Country')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -204,20 +157,20 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-3" for="active">Active</label>
+                            <label class="col-sm-3" for="is_serial">Serial Number Available..? </label>
                             <div class="col-sm-9">
                                 <label class="inline-flex relative items-center mb-4 cursor-pointer">
-                                    @if($item->active == 1)
-                                        <input checked type="checkbox" name="active" value="1"
+                                    @if($item->is_serial)
+                                        <input checked type="checkbox" name="is_serial" value="1"
                                                class="sr-only peer">
                                     @else
-                                        <input type="checkbox" name="active" value="1"
+                                        <input type="checkbox" name="is_serial" value="1"
                                                class="sr-only peer">
                                     @endif
                                     <div
                                         class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                                 </label>
-                                @error('active')
+                                @error('is_serial')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -225,6 +178,67 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="Unit_Of_Issue">Unit Of Issues</label>
+                            <div class="col-sm-9">
+                                <select required name="Unit_Of_Issue" id="Unit_Of_Issue"
+                                        class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option selected value="">Choose a Unit Of Issues</option>
+                                    @foreach($mesures as $itemData)
+                                        <option
+                                            @selected($itemData->id == $item->Unit_Of_Issue) value="{{$itemData->id}}">{{$itemData->measu_name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('Unit_Of_Issue')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="reorder">Re-Order Level</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="reorder"
+                                       class="form-control   @error('reorder') is-invalid @enderror" id="reorder"
+                                       placeholder="Re-Order Level" value="{{ $item->reorder }}">
+                                @error('reorder')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="comreserve">Commander Reserve </label>
+                            <div class="col-sm-8">
+                                <input type="text" name="comreserve"
+                                       class="form-control   @error('comreserve') is-invalid @enderror" id="comreserve"
+                                       placeholder="Commander Reserve" value="{{ $item->comreserve }}">
+                                @error('comreserve')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="Item_Remarks">Remarks</label>
+                            <div class="col-sm-9">
+                                <textarea type="text" name="Item_Remarks"
+                                          class="form-control   @error('Item_Remarks') is-invalid @enderror"
+                                          id="Item_Remarks"
+                                          placeholder="Remarks">{{$item->Item_Remarks}}</textarea>
+                                @error('Item_Remarks')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
 
                     </div>
 
@@ -240,147 +254,11 @@
     </div>
 @endsection
 
-
 @section('third_party_stylesheets')
+    <link rel="stylesheet" href="{{ asset('plugin/flowbite/flowbite.min.css') }}"/>
 @stop
-
 
 @section('third_party_scripts')
-    <script src="{{ asset('plugin/jquery/jquery.js') }}"></script>
-    <script>
-
-        $('#establishment_id').change(function () {
-            var establishment_id = $('#establishment_id').val();
-            var category_id = $('#category_id').val();
-
-            $.ajax({
-                url: '{{ route('ajax.getTreeCategory') }}',
-                type: 'get',
-                data: {
-                    'establishment_id': establishment_id,
-                    'category_id': 0,
-                    '_token': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function (response) {
-                    $('#category_id option').remove();
-                    $('#parent_id option').remove();
-                    $('#child_id option').remove();
-                    $('#sub_child_id option').remove();
-                    $('#category_id').append(new Option('Root', 0));
-                    $.each(response, function (key, value) {
-                        $('#category_id').append(new Option(value.name, value.id));
-                    });
-                }
-            });
-        })
-
-        $('#category_id').change(function () {
-            var establishment_id = $('#establishment_id').val();
-            var category_id = $('#category_id').val();
-
-            $.ajax({
-                url: '{{ route('ajax.getTreeCategory') }}',
-                type: 'get',
-                data: {
-                    'establishment_id': establishment_id,
-                    'category_id': category_id,
-                    '_token': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function (response) {
-                    $('#parent_id option').remove();
-                    $('#child_id option').remove();
-                    $('#sub_child_id option').remove();
-                    $('#parent_id').append(new Option('Choose a Category', ""));
-                    $.each(response, function (key, value) {
-                        $('#parent_id').append(new Option(value.name, value.id));
-                    });
-                }
-            });
-        })
-
-        $('#parent_id').change(function () {
-            var establishment_id = $('#establishment_id').val();
-            var category_id = $('#parent_id').val();
-
-            $.ajax({
-                url: '{{ route('ajax.getTreeCategory') }}',
-                type: 'get',
-                data: {
-                    'establishment_id': establishment_id,
-                    'category_id': category_id,
-                    '_token': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function (response) {
-                    $('#child_id option').remove();
-                    $('#sub_child_id option').remove();
-                    $('#child_id').append(new Option('Choose a Category', ""));
-                    $.each(response, function (key, value) {
-                        $('#child_id').append(new Option(value.name, value.id));
-                    });
-                }
-            });
-        })
-
-        $('#child_id').change(function () {
-            var establishment_id = $('#establishment_id').val();
-            var category_id = $('#child_id').val();
-
-            $.ajax({
-                url: '{{ route('ajax.getTreeCategory') }}',
-                type: 'get',
-                data: {
-                    'establishment_id': establishment_id,
-                    'category_id': category_id,
-                    '_token': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function (response) {
-                    $('#sub_child_id option').remove();
-                    $('#sub_child_id option').remove();
-                    $('#sub_child_id').append(new Option('Choose a Category', ""));
-                    $.each(response, function (key, value) {
-                        $('#sub_child_id').append(new Option(value.name, value.id));
-                    });
-                }
-            });
-        })
-
-        $('#establishment_id').change(function () {
-            var id = $(this).val();
-
-            $.ajax({
-                url: '{{ route('ajax.getCategory') }}',
-                type: 'get',
-                data: {
-                    'id': id,
-                    '_token': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function (response) {
-                    $('#categories option').remove();
-                    $.each(response, function (key, value) {
-                        $('#categories').append(new Option(value.name, value.id));
-                    });
-                }
-            });
-        })
-
-        $('#establishment_id').change(function () {
-            var id = $(this).val();
-
-            $.ajax({
-                url: '{{ route('ajax.getMeasureUnit') }}',
-                type: 'get',
-                data: {
-                    'id': id,
-                    '_token': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function (response) {
-                    $('#measure_unit_id option').remove();
-                    $.each(response, function (key, value) {
-                        $('#measure_unit_id').append(new Option(value.abbreviation, value.id));
-                    });
-                }
-            });
-        })
-
-    </script>
+    <script src="{{ asset('plugin/flowbite/flowbite.js') }}"></script>
 @stop
+
