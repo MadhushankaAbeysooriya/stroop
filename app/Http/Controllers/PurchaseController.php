@@ -82,7 +82,10 @@ class PurchaseController extends Controller
      */
     public function edit(Purchase $purchase)
     {
-        return view('purchase.edit', compact('purchase'));
+        $suplier = Supplier::all();
+        $establisments = Establishment::all();
+        $votes = Vote::all();
+        return view('purchase.edit', compact('purchase','suplier','establisments','votes'));
     }
 
     /**

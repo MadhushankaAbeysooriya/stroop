@@ -52,6 +52,98 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="sup_id">Supplier</label>
+                            <div class="col-sm-8">
+                                <select required name="sup_id" id="sup_id"
+                                        class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option selected value="">Choose a Supplier</option>
+                                    @foreach($suplier as $item)
+                                        <option
+                                            @selected($item->id == $purchase->sup_id) value="{{$item->id}}">{{$item->Sup_Name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('sup_id')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-sm-1 text-center my-2">
+                                <a href="{{route('supplier.create')}}" class="btn btn-xs btn-success"
+                                   data-toggle="tooltip" data-placement="bottom" title="Add New Supplier"><i
+                                        class="fa fa-plus"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="vote_id">Vote Code</label>
+                            <div class="col-sm-9">
+                                <select required required name="vote_id" id="vote_id"
+                                        class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option selected value="">Choose a Vote Code</option>
+                                    @foreach($votes as $item)
+                                        <option
+                                            @selected($item->id == $purchase->vote_id) value="{{$item->id}}">{{$item->vote_code}}</option>
+                                    @endforeach
+                                </select>
+                                @error('vote_id')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="rcvd_to">Received To</label>
+                            <div class="col-sm-9">
+                                <select required required name="rcvd_to" id="rcvd_to"
+                                        class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option selected value="">Choose a Received To</option>
+                                    @foreach($establisments as $establisment)
+                                        <option
+                                            @selected($establisment->id == $purchase->rcvd_to) value="{{$establisment->id}}">{{$establisment->issue_place}}</option>
+                                    @endforeach
+                                </select>
+                                @error('rcvd_to')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="amount">Amount</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="amount"
+                                       class="form-control   @error('amount') is-invalid @enderror"
+                                       id="amount"
+                                       placeholder="Amount" value="{{ $purchase->amount }}">
+                                @error('amount')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="p_order_remarks">Remarks</label>
+                            <div class="col-sm-9">
+                                <textarea type="text" name="p_order_remarks"
+                                          class="form-control   @error('p_order_remarks') is-invalid @enderror"
+                                          id="p_order_remarks"
+                                          placeholder="Remarks">{{$purchase->p_order_remarks}}</textarea>
+                                @error('p_order_remarks')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="card-footer">
