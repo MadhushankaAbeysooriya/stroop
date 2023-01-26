@@ -31,9 +31,44 @@
                 <div class="card-body">
 
                     <div class="form-group row">
-                        <label class="col-sm-3" for="Sup_Name">Purchase Order No</label>
+                        <label class="col-sm-3" for="purchase_order_no">Purchase Order No</label>
                         <div class="col-sm-9">
                             <span>{{$purchase->purchase_order_no}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3" for="Sup_Name">Supplier</label>
+                        <div class="col-sm-9">
+                            <span>{{$purchase->supplier->Sup_Name}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3" for="vote_code">Vote Code</label>
+                        <div class="col-sm-9">
+                            <span>{{$purchase->vote->vote_code}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3" for="issue_place">Received To</label>
+                        <div class="col-sm-9">
+                            <span>{{$purchase->received->issue_place}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3" for="amount">Amount</label>
+                        <div class="col-sm-9">
+                            <span>{{$purchase->amount}}</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3" for="p_order_remarks">Remarks</label>
+                        <div class="col-sm-9">
+                            <span>{{$purchase->p_order_remarks}}</span>
                         </div>
                     </div>
 
