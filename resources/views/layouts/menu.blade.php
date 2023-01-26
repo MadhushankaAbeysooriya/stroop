@@ -11,6 +11,35 @@
     <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
 @else
 
+    @can('item-list')
+        <li class="nav-item    has-treeview  {{ request()->is('item*') ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link  ">
+                <i class="nav-icon text-warning fas fa fa-cubes"></i>
+                <p>Items</p>
+            </a>
+            <ul class="nav nav-treeview">
+                @can('item-create')
+                    <li class="nav-item">
+                        <a href="{{ route('item.create') }}"
+                           class="nav-link {{  request()->is('item/create*') ? 'active' : '' }}  ">
+                            <i
+                                class="far fa-circle nav-icon text-warning"></i>
+                            <p>Create Item </p>
+                        </a>
+                    </li>
+                @endcan
+                <li class="nav-item">
+                    <a href="{{ route('item.index') }}"
+                       class="nav-link   {{  request()->is('item') ? 'active' : '' }} ">
+                        <i
+                            class="far fa-circle nav-icon text-warning"></i>
+                        <p>All Items</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    @endcan
+
     @can('purchase-order-list')
         <li class="nav-item    has-treeview  {{ request()->is('purchase*') ? 'menu-open' : '' }}">
             <a href="#" class="nav-link  ">
