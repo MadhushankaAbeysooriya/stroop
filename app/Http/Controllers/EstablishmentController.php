@@ -15,13 +15,13 @@ use Illuminate\Validation\Rule;
 class EstablishmentController extends Controller
 {
 
-//    function __construct()
-//    {
-//        $this->middleware('permission:establishment-list|establishment-create|establishment-edit|establishment-delete', ['only' => ['index', 'store']]);
-//        $this->middleware('permission:establishment-create', ['only' => ['create', 'store']]);
-//        $this->middleware('permission:establishment-edit', ['only' => ['edit', 'update']]);
-//        $this->middleware('permission:establishment-delete', ['only' => ['destroy']]);
-//    }
+    function __construct()
+    {
+        $this->middleware('permission:establishment-list|establishment-create|establishment-edit|establishment-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:establishment-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:establishment-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:establishment-delete', ['only' => ['destroy']]);
+    }
 
     /**
      * Display a listing of the resource.

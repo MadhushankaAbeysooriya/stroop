@@ -13,13 +13,13 @@ use Illuminate\Validation\Rule;
 class VoteController extends Controller
 {
 
-//    function __construct()
-//    {
-//        $this->middleware('permission:supplier-list|supplier-create|supplier-edit|supplier-delete', ['only' => ['index', 'store']]);
-//        $this->middleware('permission:supplier-create', ['only' => ['create', 'store']]);
-//        $this->middleware('permission:supplier-edit', ['only' => ['edit', 'update']]);
-//        $this->middleware('permission:supplier-delete', ['only' => ['destroy']]);
-//    }
+    function __construct()
+    {
+        $this->middleware('permission:vote-list|supplier-create|vote-edit|vote-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:vote-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:vote-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:vote-delete', ['only' => ['destroy']]);
+    }
 
     /**
      * Display a listing of the resource.
