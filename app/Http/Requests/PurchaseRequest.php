@@ -24,11 +24,11 @@ class PurchaseRequest extends FormRequest
     public function rules()
     {
         return [
-            'Sup_Name' => 'required|max:400',
-            'Addrs' => 'required|max:400',
-            'Tel' => 'required|max:15',
-            'Fax' => 'required|max:12',
-            'Email' => 'required|email',
+            'purchase_order_no' => 'required',
+            'sup_id' => 'required',
+            'vote_id' => 'required',
+            'rcvd_to' => 'required',
+            'amount' => 'required',
         ];
     }
 }
