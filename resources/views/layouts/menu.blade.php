@@ -11,6 +11,34 @@
     <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
 @else
 
+    @can('receive-list')
+        <li class="nav-item    has-treeview  {{ request()->is('receive*') ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link  ">
+                <i class="nav-icon text-green fas fa fa-ticket-alt"></i>
+                <p>Receive Items</p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ route('receive.create') }}"
+                       class="nav-link {{  request()->is('receive/create*') ? 'active' : '' }}  ">
+                        <i
+                            class="far fa-circle nav-icon text-green"></i>
+                        <p>New Receive Item</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('receive.index') }}"
+                       class="nav-link   {{  request()->is('receive') ? 'active' : '' }} ">
+                        <i
+                            class="far fa-circle nav-icon text-green"></i>
+                        <p>All Receive Items</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    @endcan
+
+
     @can('item-list')
         <li class="nav-item    has-treeview  {{ request()->is('item*') || request()->is('title*')? 'menu-open' : '' }}">
             <a href="#" class="nav-link  ">

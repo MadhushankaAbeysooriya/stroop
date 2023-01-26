@@ -3,13 +3,14 @@
 use App\Http\Controllers\EstablishmentController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\ReceiveController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TitleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/profile', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('update-password');
     Route::resource('establishment', EstablishmentController::class);
     Route::resource('supplier', SupplierController::class);
+    Route::resource('receive', ReceiveController::class);
     Route::resource('item', ItemController::class);
     Route::resource('purchase', PurchaseController::class);
     Route::resource('vote', VoteController::class);
