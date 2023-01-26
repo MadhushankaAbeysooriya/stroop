@@ -4,6 +4,7 @@ use App\Http\Controllers\EstablishmentController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\TitleController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('item', ItemController::class);
     Route::resource('purchase', PurchaseController::class);
     Route::resource('vote', VoteController::class);
+    Route::resource('title', TitleController::class);
     Route::prefix('settings')->group(function () {
         Route::resource('roles', RoleController::class);
         Route::resource('users', UserController::class);

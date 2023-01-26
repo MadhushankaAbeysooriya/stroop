@@ -36,6 +36,16 @@
                         <p>All Items</p>
                     </a>
                 </li>
+                @can('title-list')
+                    <li class="nav-item">
+                        <a href="{{ route('title.index') }}"
+                           class="nav-link   {{  request()->is('title') ? 'active' : '' }} ">
+                            <i
+                                class="far fa-circle nav-icon text-warning"></i>
+                            <p>All Titles</p>
+                        </a>
+                    </li>
+                @endcan
             </ul>
         </li>
     @endcan

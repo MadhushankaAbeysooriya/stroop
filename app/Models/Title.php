@@ -12,4 +12,9 @@ class Title extends Model
     protected $table = 'm_title';
     protected $guarded = [];
 
+    public function stores()
+    {
+        return $this->hasOne(Store::class, 'id', 'store_id');
+    }
+
 }

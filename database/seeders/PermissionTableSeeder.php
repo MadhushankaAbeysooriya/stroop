@@ -50,6 +50,10 @@ class PermissionTableSeeder extends Seeder
             'vote-create',
             'vote-edit',
             'vote-delete',
+            'title-list',
+            'title-create',
+            'title-edit',
+            'title-delete',
         ];
 
         foreach ($permissions as $permission) {
