@@ -37,7 +37,7 @@ class PurchaseDataTable extends DataTable
      */
     public function query(Purchase $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(['supplier','vote','received']);
     }
 
     /**
@@ -72,9 +72,9 @@ class PurchaseDataTable extends DataTable
         return [
             Column::make('DT_RowIndex')->title('#')->searchable(false)->orderable(false),
             Column::make('purchase_order_no')->title("Purchase Order No"),
-            Column::make('sup_id')->title("Supplier"),
-            Column::make('vote_id')->title("Vote Head"),
-            Column::make('rcvd_to')->title("Received To"),
+            Column::make('supplier.Sup_Name')->title("Supplier"),
+            Column::make('vote.vote_code')->title("Vote Head"),
+            Column::make('received.issue_place')->title("Received To"),
             Column::make('amount')->title("Total"),
             Column::computed('action')
                 ->exportable(false)

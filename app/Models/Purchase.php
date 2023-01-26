@@ -22,7 +22,7 @@ class Purchase extends Model
         return $this->hasOne(Vote::class, 'id', 'vote_id');
     }
 
-    public function Received()
+    public function received()
     {
         return $this->hasOne(Establishment::class, 'id', 'rcvd_to');
     }
