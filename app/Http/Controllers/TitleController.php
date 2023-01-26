@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\TitleDataTable;
 use App\Http\Requests\TitleRequest;
+use App\Models\Store;
 use App\Models\Supplier;
 use App\Models\Title;
 use Illuminate\Http\Request;
@@ -38,7 +39,8 @@ class TitleController extends Controller
      */
     public function create()
     {
-        return view('title.create');
+        $stores = Store::all();
+        return view('title.create',compact('stores'));
     }
 
     /**
@@ -49,7 +51,7 @@ class TitleController extends Controller
      */
     public function store(TitleRequest $request)
     {
-        Supplier::create($request->all());
+        Title::create($request->all());
         return redirect()->route('title.index')
             ->with('message', 'Title created successfully.');
     }
@@ -74,7 +76,8 @@ class TitleController extends Controller
      */
     public function edit(Title $title)
     {
-        return view('title.edit', compact('title'));
+        $stores = Store::all();
+        return view('title.edit', compact('title','stores'));
     }
 
     /**

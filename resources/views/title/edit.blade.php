@@ -7,12 +7,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Edit Supplier </h1>
+                        <h1>Edit Title </h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item ">Supplier</li>
+                            <li class="breadcrumb-item ">Title</li>
                             <li class="breadcrumb-item active">edit</li>
                         </ol>
                     </div>
@@ -24,26 +24,31 @@
 
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Edit Supplier</div>
+                    <div class="card-title">Edit Title</div>
                     <div class="card-tools">
                         <a href="{{ URL::previous() }}" class="btn btn-sm btn-dark">Back</a>
                     </div>
                 </div>
 
 
-                <form role="form" method="POST" action="{{ route('supplier.update',$supplier->id) }}"
+                <form role="form" method="POST" action="{{ route('title.update',$title->id) }}"
                       enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="card-body">
 
                         <div class="form-group row">
-                            <label class="col-sm-3" for="Sup_Name">Supplier Name</label>
+                            <label class="col-sm-3" for="store_id">Relevent Stores</label>
                             <div class="col-sm-9">
-                                <input type="text" name="Sup_Name"
-                                       class="form-control   @error('Sup_Name') is-invalid @enderror" id="Sup_Name"
-                                       placeholder="Supplier Name" value="{{$supplier->Sup_Name}}">
-                                @error('Sup_Name')
+                                <select required name="store_id" id="store_id"
+                                        class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option selected value="">Choose a Relevent Store</option>
+                                    @foreach($stores as $store)
+                                        <option
+                                            @selected($store->id == $title->store_id) value="{{$store->id}}">{{$store->store_name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('store_id')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -52,54 +57,12 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-3" for="Addrs">Address </label>
+                            <label class="col-sm-3" for="title_name">Main Title Name</label>
                             <div class="col-sm-9">
-                                <textarea type="text" name="Addrs"
-                                          class="form-control   @error('Addrs') is-invalid @enderror" id="Addrs"
-                                          placeholder="Address">{{$supplier->Addrs}}</textarea>
-                                @error('address')
-                                <span Addrs="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-3" for="Tel">Contact No</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="Tel"
-                                       class="form-control   @error('Tel') is-invalid @enderror" id="Tel"
-                                       placeholder="Contact No" value="{{ $supplier->Tel}}">
-                                @error('Tel')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-3" for="Fax">Fax No</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="Fax"
-                                       class="form-control   @error('Fax') is-invalid @enderror" id="Fax"
-                                       placeholder="Fax No" value="{{$supplier->Fax }}">
-                                @error('Fax')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-3" for="Email">Email</label>
-                            <div class="col-sm-9">
-                                <input type="Email" name="Email"
-                                       class="form-control   @error('Email') is-invalid @enderror" id="Email"
-                                       placeholder="Email" value="{{ $supplier->Email}}">
-                                @error('Email')
+                                <input type="text" name="title_name"
+                                       class="form-control   @error('title_name') is-invalid @enderror" id="title_name"
+                                       placeholder="Main Title Name" value="{{$title->title_name }}">
+                                @error('title_name')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
