@@ -12,7 +12,7 @@
 @else
 
     @can('item-list')
-        <li class="nav-item    has-treeview  {{ request()->is('item*') ? 'menu-open' : '' }}">
+        <li class="nav-item    has-treeview  {{ request()->is('item*') || request()->is('title*')? 'menu-open' : '' }}">
             <a href="#" class="nav-link  ">
                 <i class="nav-icon text-warning fas fa fa-cubes"></i>
                 <p>Items</p>
