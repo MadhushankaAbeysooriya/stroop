@@ -8,6 +8,7 @@ use App\Models\Store;
 use App\Models\Supplier;
 use App\Models\Title;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
@@ -40,7 +41,7 @@ class TitleController extends Controller
     public function create()
     {
         $stores = Store::all();
-        return view('title.create',compact('stores'));
+        return view('title.create', compact('stores'));
     }
 
     /**
@@ -51,7 +52,9 @@ class TitleController extends Controller
      */
     public function store(TitleRequest $request)
     {
-        Title::create($request->all());
+
+        Title::create(['title_no' => 1, 'title_name' => $request->title_name, 'store_id' => $request->store_id,
+            'create_date' => Carbon::now(), 'user_id' => Auth::user()->id]);
         return redirect()->route('title.index')
             ->with('message', 'Title created successfully.');
     }
@@ -77,7 +80,7 @@ class TitleController extends Controller
     public function edit(Title $title)
     {
         $stores = Store::all();
-        return view('title.edit', compact('title','stores'));
+        return view('title.edit', compact('title', 'stores'));
     }
 
     /**
@@ -90,8 +93,8 @@ class TitleController extends Controller
 
     public function update(TitleRequest $request, Title $title)
     {
-
-        $title->update($request->all());
+        $title->update(['title_no' => 1, 'title_name' => $request->title_name, 'store_id' => $request->store_id,
+            'modified_date' => Carbon::now(), 'modified_user_id' => Auth::user()->id]);
         return redirect()->route('title.index')
             ->with('message', 'Title update successfully.');
     }
