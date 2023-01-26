@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\DataTables\ReceiveDataTable;
 use App\Http\Requests\ReceiveRequest;
+use App\Models\Equipment;
+use App\Models\ICTCategory;
 use App\Models\Receive;
+use App\Models\Store;
 use App\Models\Supplier;
+use App\Models\Title;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,7 +41,11 @@ class ReceiveController extends Controller
      */
     public function create()
     {
-        return view('receive.create');
+        $stores = Store::all();
+        $icts = ICTCategory::all();
+        $equipments = Equipment::all();
+        $titles = Title::all();
+        return view('receive.create', compact('stores', 'icts', 'equipments', 'titles'));
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ajaxController;
 use App\Http\Controllers\EstablishmentController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseController;
@@ -47,3 +48,4 @@ Route::group(['middleware' => ['auth']], function () {
     });
 });
 
+Route::get('/ajax/getTitle', [ajaxController::class, 'getTitle'])->name('ajax.getTitle');

@@ -38,12 +38,16 @@
                     <div class="card-body">
 
                         <div class="form-group row">
-                            <label class="col-sm-3" for="Sup_Name">Supplier Name</label>
+                            <label class="col-sm-3" for="store_id">Relevent Stores</label>
                             <div class="col-sm-9">
-                                <input type="text" name="Sup_Name"
-                                       class="form-control   @error('Sup_Name') is-invalid @enderror" id="Sup_Name"
-                                       placeholder="Supplier Name" value="{{ old('Sup_Name') }}">
-                                @error('Sup_Name')
+                                <select required name="store_id" id="store_id"
+                                        class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    @foreach($stores as $store)
+                                        <option
+                                            @selected($store->id == old('store_id')) value="{{$store->id}}">{{$store->store_name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('store_id')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -52,12 +56,17 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-3" for="Addrs">Address </label>
+                            <label class="col-sm-3" for="ict">ICT Category </label>
                             <div class="col-sm-9">
-                                <textarea type="text" name="Addrs"
-                                          class="form-control   @error('Addrs') is-invalid @enderror" id="Addrs"
-                                          placeholder="Address">{{ old('Addrs') }}</textarea>
-                                @error('Addrs')
+                                <select required name="ict" id="ict"
+                                        class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option selected value="">Choose a ICT Category</option>
+                                    @foreach($icts as $item)
+                                        <option
+                                            @selected($item->id == old('ict')) value="{{$item->id}}">{{$item->Category_Name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('ict')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -66,12 +75,17 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-3" for="Tel">Contact No</label>
+                            <label class="col-sm-3" for="category_type">Equipment Type </label>
                             <div class="col-sm-9">
-                                <input type="text" name="Tel"
-                                       class="form-control   @error('Tel') is-invalid @enderror" id="Tel"
-                                       placeholder="Contact No" value="{{ old('Tel') }}">
-                                @error('Tel')
+                                <select required name="category_type" id="category_type"
+                                        class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option selected value="">Choose a Equipment Type</option>
+                                    @foreach($equipments as $item)
+                                        <option
+                                            @selected($item->id == old('category_type')) value="{{$item->id}}">{{$item->Type_Name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('category_type')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -80,26 +94,17 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-3" for="Fax">Fax No</label>
+                            <label class="col-sm-3" for="title_no">Title Name</label>
                             <div class="col-sm-9">
-                                <input type="text" name="Fax"
-                                       class="form-control   @error('Fax') is-invalid @enderror" id="Fax"
-                                       placeholder="Fax No" value="{{ old('Fax') }}">
-                                @error('Fax')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-3" for="Email">Email</label>
-                            <div class="col-sm-9">
-                                <input type="Email" name="Email"
-                                       class="form-control   @error('Email') is-invalid @enderror" id="Email"
-                                       placeholder="Email" value="{{ old('Email') }}">
-                                @error('Email')
+                                <select required name="title_no" id="title_no"
+                                        class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option selected value="">Choose a Title</option>
+                                    @foreach($titles as $item)
+                                        <option
+                                            @selected($item->id == old('title_no')) value="{{$item->id}}">{{$item->title_name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('title_no')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -127,4 +132,27 @@
 
 @section('third_party_scripts')
     <script src="{{ asset('plugin/flowbite/flowbite.js') }}"></script>
+    <script src="{{ asset('plugin/jquery/jquery.js') }}"></script>
+    <script>
+
+        $('#store_id').change(function () {
+            var store_id = $('#store_id').val();
+
+            $.ajax({
+                url: '{{ route('ajax.getTitle') }}',
+                type: 'get',
+                data: {
+                    'store_id': store_id,
+                    '_token': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    $('#title_no option').remove();
+                    $.each(response, function (key, value) {
+                        $('#title_no').append(new Option(value.title_name, value.id));
+                    });
+                }
+            });
+        })
+
+    </script>
 @stop
