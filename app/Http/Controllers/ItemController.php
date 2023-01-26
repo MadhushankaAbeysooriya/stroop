@@ -10,6 +10,7 @@ use App\Models\Item;
 use App\Models\MesureUnit;
 use App\Models\Store;
 use App\Models\Title;
+use App\Models\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -62,7 +63,38 @@ class ItemController extends Controller
         if ($request->category_type == 1) {
             $itemData['is_spare'] = 1;
         }
-        $itemData['Item_Code'] = 'aaa';
+
+        $latestCode = $this->GetNextItemCode($request->store_id, $request->title_no);
+        $tpcode = Equipment::find($request->category_type);
+
+        if (!isset($latestCode->Item_Code)) {
+
+            if (strlen($request->title_no) == 1) {
+                $newmain_title = "00" . $request->title_no;
+            } else if (strlen($request->title_no) == 2) {
+                $newmain_title = "0" . $request->title_no;
+            } else {
+                $newmain_title = $request->title_no;
+            }
+            $newcode = '8' . $request->store_id . $request->ict . $tpcode->Type_Code . $newmain_title . '001';
+        } else {
+
+            $lasttwo = substr($latestCode->Item_Code, -3) + 1;    //this is last 3
+            if (strlen($lasttwo) == 1) {
+                $lasttwo = '00' . $lasttwo;
+            } else if (strlen($lasttwo) == 2) {
+                $lasttwo = '0' . $lasttwo;
+            }
+            $firsttwo = substr($latestCode->Item_Code, 0, 2);   //get first two
+
+            $gettitle = substr($latestCode->Item_Code, 4, 3);   // get title
+
+            $firstseven = $firsttwo . $request->ict . $tpcode->Type_Code . $gettitle;
+
+            $newcode = $firstseven . $lasttwo;
+        }
+
+        $itemData['Item_Code'] = $newcode;
 
         Item::create($itemData);
 
@@ -111,7 +143,7 @@ class ItemController extends Controller
         if ($request->category_type == 1) {
             $itemData['is_spare'] = 1;
         }
-        $itemData['Item_Code'] = 'aaa';
+        $itemData['Item_Code'] = $item->Item_Code;
 
         $item->update($itemData);
 
@@ -131,4 +163,10 @@ class ItemController extends Controller
         return redirect()->route('item.index')
             ->with('message', 'Item deleted successfully');
     }
+
+    function GetNextItemCode($store_id, $title_no)
+    {
+        return Item::where('store_id', $store_id)->where('title_no', $title_no)->first();
+    }
+
 }
