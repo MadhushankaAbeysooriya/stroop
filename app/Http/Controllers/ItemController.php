@@ -166,7 +166,7 @@ class ItemController extends Controller
 
     function GetNextItemCode($store_id, $title_no)
     {
-        return Item::where('store_id', $store_id)->where('title_no', $title_no)->first();
+        return Item::where('store_id', $store_id)->where('title_no', $title_no)->latest()->first();
     }
 
 }

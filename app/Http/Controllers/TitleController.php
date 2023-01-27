@@ -53,7 +53,7 @@ class TitleController extends Controller
     public function store(TitleRequest $request)
     {
 
-        Title::create(['title_no' => 1, 'title_name' => $request->title_name, 'store_id' => $request->store_id,
+        Title::create(['title_no' => $this->GetNextTitleNo($request->store_id), 'title_name' => $request->title_name, 'store_id' => $request->store_id,
             'create_date' => Carbon::now(), 'user_id' => Auth::user()->id]);
         return redirect()->route('title.index')
             ->with('message', 'Title created successfully.');
@@ -93,7 +93,7 @@ class TitleController extends Controller
 
     public function update(TitleRequest $request, Title $title)
     {
-        $title->update(['title_no' => 1, 'title_name' => $request->title_name, 'store_id' => $request->store_id,
+        $title->update(['title_no' => $title->title_no, 'title_name' => $request->title_name, 'store_id' => $request->store_id,
             'modified_date' => Carbon::now(), 'modified_user_id' => Auth::user()->id]);
         return redirect()->route('title.index')
             ->with('message', 'Title update successfully.');
@@ -112,4 +112,15 @@ class TitleController extends Controller
         return redirect()->route('title.index')
             ->with('message', 'Title status successfully');
     }
+
+    function GetNextTitleNo($store_id)
+    {
+        $title = Title::where('store_id', $store_id)->latest()->first();
+        if (isset($title->id)) {
+            return $title->id + 1;
+        } else {
+            return 1;
+        }
+    }
+
 }

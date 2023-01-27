@@ -102,7 +102,7 @@
                                     <option selected value="">Choose a Title</option>
                                     @foreach($titles as $item)
                                         <option
-                                            @selected($item->id == old('title_no')) value="{{$item->id}}">{{$item->title_name}}</option>
+                                            @selected($item->title_no == old('title_no')) value="{{$item->title_no}}">{{$item->title_name}}</option>
                                     @endforeach
                                 </select>
                                 @error('title_no')
@@ -260,4 +260,46 @@
 
 @section('third_party_scripts')
     <script src="{{ asset('plugin/flowbite/flowbite.js') }}"></script>
+    <script src="{{ asset('plugin/jquery/jquery.js') }}"></script>
+    <script>
+
+        $('#store_id').change(function () {
+            var store_id = $('#store_id').val();
+
+            $.ajax({
+                url: '{{ route('ajax.getTitle') }}',
+                type: 'get',
+                data: {
+                    'store_id': store_id,
+                    '_token': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    $('#title_no option').remove();
+                    $.each(response, function (key, value) {
+                        $('#title_no').append(new Option(value.title_name, value.title_no));
+                    });
+                }
+            });
+        })
+
+        $('#store_id').ready(function () {
+            var store_id = $('#store_id').val();
+
+            $.ajax({
+                url: '{{ route('ajax.getTitle') }}',
+                type: 'get',
+                data: {
+                    'store_id': store_id,
+                    '_token': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    $('#title_no option').remove();
+                    $.each(response, function (key, value) {
+                        $('#title_no').append(new Option(value.title_name, value.title_no));
+                    });
+                }
+            });
+        })
+
+    </script>
 @stop
