@@ -8,6 +8,7 @@ use App\Models\Equipment;
 use App\Models\ICTCategory;
 use App\Models\Purchase;
 use App\Models\Receive;
+use App\Models\RecivePlace;
 use App\Models\Store;
 use App\Models\Supplier;
 use App\Models\Title;
@@ -47,7 +48,8 @@ class ReceiveController extends Controller
         $equipments = Equipment::all();
         $titles = Title::all();
         $purchase = Purchase::all();
-        return view('receive.create', compact('stores', 'icts', 'equipments', 'titles','purchase'));
+        $recivePlace = RecivePlace::all();
+        return view('receive.create', compact('stores', 'icts', 'equipments', 'titles','purchase','recivePlace'));
     }
 
     /**

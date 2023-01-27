@@ -127,7 +127,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3" for="Item_Auto_Id">Add Serial Number</label>
                             <div class="col-sm-9">
-                                <table class="table table-bordered" id="dynamicTable">
+                                <table class="table" id="dynamicTable">
                                     <tr>
                                         <th>Name</th>
                                         <th>Serial Number</th>
@@ -182,6 +182,130 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="rec_from">Received From & Date</label>
+                            <div class="col-sm-6">
+                                <select required name="rec_from" id="rec_from"
+                                        class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option selected value="">Choose a Purchase Received From</option>
+                                    @foreach($recivePlace as $item)
+                                        <option
+                                            @selected($item->id == old('rec_from')) value="{{$item->id}}">{{$item->Rec_place}}</option>
+                                    @endforeach
+                                </select>
+                                @error('rec_from')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="relative">
+                                    <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                  d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                                                  clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <input required datepicker datepicker-format="yyyy/mm/dd" type="text" id="Issu_date"
+                                           name="Issu_date"
+                                           value="{{ old('Issu_date') }}"
+                                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                           placeholder="Select date">
+                                </div>
+                                @error('Issu_date')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="warranty_act_date">Warranty Act /Tec Approved Date</label>
+                            <div class="col-sm-9">
+                                <div class="relative">
+                                    <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                  d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                                                  clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <input required datepicker datepicker-format="yyyy/mm/dd" type="text"
+                                           id="warranty_act_date"
+                                           name="warranty_act_date"
+                                           value="{{ old('warranty_act_date') }}"
+                                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                           placeholder="Select date">
+                                </div>
+                                @error('warranty_act_date')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="price">Item Price (LKR)</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="price"
+                                       class="form-control   @error('price') is-invalid @enderror" id="price"
+                                       placeholder="Price" value="{{ old('price') }}">
+                                @error('price')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="warranty">Warranty Period</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="warranty"
+                                       class="form-control   @error('warranty') is-invalid @enderror" id="warranty"
+                                       placeholder="Warranty Period" value="{{ old('warranty') }}">
+                                @error('warranty')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-sm-3">
+                                <select required name="duration" id="duration"
+                                        class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option value="1">Year(s)</option>
+                                    <option value="2">Month(s)</option>
+                                    <option value="3">Day(s)</option>
+                                </select>
+                                @error('duration')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="Issu_remarks">Remarks</label>
+                            <div class="col-sm-9">
+                                <textarea type="text" name="Issu_remarks"
+                                          class="form-control   @error('Issu_remarks') is-invalid @enderror"
+                                          id="Issu_remarks"
+                                          placeholder="Remarks">{{old('Issu_remarks')}}</textarea>
+                                @error('Issu_remarks')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="card-footer">
@@ -202,6 +326,7 @@
 
 @section('third_party_scripts')
     <script src="{{ asset('plugin/flowbite/flowbite.js') }}"></script>
+    <script src="{{ asset('plugin/flowbite/datepicker.js') }}"></script>
     <script src="{{ asset('plugin/jquery/jquery.js') }}"></script>
 
     <script type="text/javascript">
