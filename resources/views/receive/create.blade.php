@@ -335,7 +335,7 @@
 
         $("#add").click(function () {
             ++i;
-            $("#dynamicTable").append('<tr><td><input type="text" name="addMore[' + i + '][name]" placeholder="Enter your Name" class="form-control" /></td><td><input type="text" name="addMore[' + i + '][ser]" placeholder="Enter your Serial Number" class="form-control" /></td><td>' +
+            $("#dynamicTable").append('<tr><td><input type="text" name="addmore[' + i + '][name]" placeholder="Enter your Name" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][ser]" placeholder="Enter your Serial Number" class="form-control" /></td><td>' +
                 '<button type="submit" class="  remove-tr text-white bg-red-800 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700">Remove </button></td></tr>');
         });
 

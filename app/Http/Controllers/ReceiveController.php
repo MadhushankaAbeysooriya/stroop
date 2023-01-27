@@ -9,6 +9,7 @@ use App\Models\ICTCategory;
 use App\Models\Purchase;
 use App\Models\Receive;
 use App\Models\RecivePlace;
+use App\Models\SerNo;
 use App\Models\Store;
 use App\Models\Supplier;
 use App\Models\Title;
@@ -49,7 +50,7 @@ class ReceiveController extends Controller
         $titles = Title::all();
         $purchase = Purchase::all();
         $recivePlace = RecivePlace::all();
-        return view('receive.create', compact('stores', 'icts', 'equipments', 'titles','purchase','recivePlace'));
+        return view('receive.create', compact('stores', 'icts', 'equipments', 'titles', 'purchase', 'recivePlace'));
     }
 
     /**
@@ -60,10 +61,19 @@ class ReceiveController extends Controller
      */
     public function store(ReceiveRequest $request)
     {
-        Supplier::create(['Sup_Name' => $request->Sup_Name, 'Addrs' => $request->Addrs, 'Tel' => $request->Tel, 'Fax' => $request->Fax, 'Email' => $request->Email,
-            'create_date' => Carbon::now(), 'user_id' => Auth::user()->id]);
-        return redirect()->route('supplier.index')
-            ->with('message', 'Supplier created successfully.');
+        $recive = Receive::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'quentity' => $request->quentity, 'Issu_date' => $request->Issu_date, 'Issu_remarks' => $request->Issu_remarks, 'Issued_place_id' => 1,
+            'ent_date' => Carbon::now(), 'ent_user_id' => Auth::user()->id, 'Voucher_No' => $request->Voucher_No, 'rec_from' => $request->rec_from, 'warranty' => $request->warranty,
+            'duration' => $request->duration, 'price' => $request->price, 'warranty_act_date' => $request->warranty_act_date, 'Issued_Type' => 0, 'fcolor' => 'red'
+        ]);
+
+        if (isset($request->addmore)) {
+            foreach ($request->addmore as $ser) {
+                SerNo::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'stk_Auto_Id' => $recive->id,'Seri_No' => $ser['ser'], 'name' => $ser['name']]);
+            }
+        }
+
+        return redirect()->route('receive.index')
+            ->with('message', 'Receive created successfully.');
     }
 
     /**

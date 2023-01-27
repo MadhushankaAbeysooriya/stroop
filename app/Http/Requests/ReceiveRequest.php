@@ -24,11 +24,11 @@ class ReceiveRequest extends FormRequest
     public function rules()
     {
         return [
-            'Sup_Name' => 'required|max:400',
-            'Addrs' => 'required|max:400',
-            'Tel' => 'required|max:15',
-            'Fax' => 'required|max:12',
-            'Email' => 'required|email',
+            'Item_Auto_Id' => 'required',
+            'quentity' => 'required',
+            'Voucher_No' => 'required',
+            'price' => 'required',
+            'rec_from' => 'required',
         ];
     }
 }
