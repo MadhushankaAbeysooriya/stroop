@@ -60,7 +60,6 @@
                             <div class="col-sm-9">
                                 <select required name="ict" id="ict"
                                         class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected value="">Choose a ICT Category</option>
                                     @foreach($icts as $item)
                                         <option
                                             @selected($item->id == old('ict')) value="{{$item->id}}">{{$item->Category_Name}}</option>
@@ -79,7 +78,6 @@
                             <div class="col-sm-9">
                                 <select required name="category_type" id="category_type"
                                         class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected value="">Choose a Equipment Type</option>
                                     @foreach($equipments as $item)
                                         <option
                                             @selected($item->id == old('category_type')) value="{{$item->id}}">{{$item->Type_Name}}</option>
@@ -98,13 +96,27 @@
                             <div class="col-sm-9">
                                 <select required name="title_no" id="title_no"
                                         class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected value="">Choose a Title</option>
                                     @foreach($titles as $item)
                                         <option
-                                            @selected($item->id == old('title_no')) value="{{$item->id}}">{{$item->title_name}}</option>
+                                            @selected($item->title_no == old('title_no')) value="{{$item->title_no}}">{{$item->title_name}}</option>
                                     @endforeach
                                 </select>
                                 @error('title_no')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="Item_Auto_Id">Item Code</label>
+                            <div class="col-sm-9">
+                                <select required name="Item_Auto_Id" id="Item_Auto_Id"
+                                        class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option selected value="">Choose a Item Code</option>
+                                </select>
+                                @error('Item_Auto_Id')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -148,7 +160,52 @@
                 success: function (response) {
                     $('#title_no option').remove();
                     $.each(response, function (key, value) {
-                        $('#title_no').append(new Option(value.title_name, value.id));
+                        $('#title_no').append(new Option(value.title_name, value.title_no));
+                    });
+                }
+            });
+        })
+
+        $('#store_id').ready(function () {
+            var store_id = $('#store_id').val();
+
+            $.ajax({
+                url: '{{ route('ajax.getTitle') }}',
+                type: 'get',
+                data: {
+                    'store_id': store_id,
+                    '_token': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    $('#title_no option').remove();
+                    $.each(response, function (key, value) {
+                        $('#title_no').append(new Option(value.title_name, value.title_no));
+                    });
+                }
+            });
+        })
+
+        $("#store_id,#ict,#category_type,#title_no").change(function () {
+            var store_id = $('#store_id').val();
+            var ict = $('#ict').val();
+            var category_type = $('#category_type').val();
+            var title_no = $('#title_no').val();
+
+            $.ajax({
+                url: '{{ route('ajax.getItemCode') }}',
+                type: 'get',
+                data: {
+                    'store_id': store_id,
+                    'ict': ict,
+                    'category_type': category_type,
+                    'title_no': title_no,
+                    '_token': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    $('#Item_Auto_Id option').remove();
+                    $('#Item_Auto_Id').append(new Option('Choose a Item Code', ""));
+                    $.each(response, function (key, value) {
+                        $('#Item_Auto_Id').append(new Option(value.Item_Code, value.id));
                     });
                 }
             });

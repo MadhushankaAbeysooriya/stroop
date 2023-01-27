@@ -19,4 +19,11 @@ class ajaxController extends Controller
         }
     }
 
+    public function getItemCode(request $request)
+    {
+        if ($request->ajax()) {
+            return Item::where('store_id', $request->store_id)->where('title_no', $request->title_no)->where('ict', $request->ict)->where('category_type', $request->category_type)->get();
+        }
+    }
+
 }

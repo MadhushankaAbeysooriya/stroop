@@ -49,3 +49,4 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 Route::get('/ajax/getTitle', [ajaxController::class, 'getTitle'])->name('ajax.getTitle');
+Route::get('/ajax/getItemCode', [ajaxController::class, 'getItemCode'])->name('ajax.getItemCode');
