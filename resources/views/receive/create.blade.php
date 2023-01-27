@@ -126,24 +126,60 @@
 
                         <div class="form-group row">
                             <label class="col-sm-3" for="Item_Auto_Id">Add Serial Number</label>
-                            <table class="table table-bordered" id="dynamicTable">
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Serial Number</th>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" name="addmore[0][name]" placeholder="Enter your Name"
-                                               class="form-control"/></td>
-                                    <td><input type="text" name="addmore[0][qty]" placeholder="Enter your Serial Number"
-                                               class="form-control"/></td>
-                                    <td>
-                                        <button type="button" name="add" id="add"
-                                                class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
-                                            Add More
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
+                            <div class="col-sm-9">
+                                <table class="table table-bordered" id="dynamicTable">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Serial Number</th>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" name="addmore[0][name]" placeholder="Enter your Name"
+                                                   class="form-control"/></td>
+                                        <td><input type="text" name="addmore[0][qty]"
+                                                   placeholder="Enter your Serial Number"
+                                                   class="form-control"/></td>
+                                        <td>
+                                            <button type="button" name="add" id="add"
+                                                    class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
+                                                Add More
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="quentity">Quentity</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="quentity"
+                                       class="form-control   @error('quentity') is-invalid @enderror" id="quentity"
+                                       placeholder="Quentity" value="{{ old('quentity') }}">
+                                @error('quentity')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="Voucher_No">Purchase Order No</label>
+                            <div class="col-sm-9">
+                                <select required name="Voucher_No" id="Voucher_No"
+                                        class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option selected value="">Choose a Purchase Order No</option>
+                                    @foreach($purchase as $item)
+                                        <option
+                                            @selected($item->id == old('Voucher_No')) value="{{$item->id}}">{{$item->purchase_order_no}}</option>
+                                    @endforeach
+                                </select>
+                                @error('Voucher_No')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                         </div>
 
                     </div>

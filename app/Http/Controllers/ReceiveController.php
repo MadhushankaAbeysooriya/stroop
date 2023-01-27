@@ -6,6 +6,7 @@ use App\DataTables\ReceiveDataTable;
 use App\Http\Requests\ReceiveRequest;
 use App\Models\Equipment;
 use App\Models\ICTCategory;
+use App\Models\Purchase;
 use App\Models\Receive;
 use App\Models\Store;
 use App\Models\Supplier;
@@ -45,7 +46,8 @@ class ReceiveController extends Controller
         $icts = ICTCategory::all();
         $equipments = Equipment::all();
         $titles = Title::all();
-        return view('receive.create', compact('stores', 'icts', 'equipments', 'titles'));
+        $purchase = Purchase::all();
+        return view('receive.create', compact('stores', 'icts', 'equipments', 'titles','purchase'));
     }
 
     /**
