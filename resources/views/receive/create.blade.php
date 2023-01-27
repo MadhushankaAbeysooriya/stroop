@@ -124,6 +124,28 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="Item_Auto_Id">Add Serial Number</label>
+                            <table class="table table-bordered" id="dynamicTable">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Serial Number</th>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" name="addmore[0][name]" placeholder="Enter your Name"
+                                               class="form-control"/></td>
+                                    <td><input type="text" name="addmore[0][qty]" placeholder="Enter your Serial Number"
+                                               class="form-control"/></td>
+                                    <td>
+                                        <button type="button" name="add" id="add"
+                                                class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
+                                            Add More
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
                     </div>
 
                     <div class="card-footer">
@@ -145,6 +167,23 @@
 @section('third_party_scripts')
     <script src="{{ asset('plugin/flowbite/flowbite.js') }}"></script>
     <script src="{{ asset('plugin/jquery/jquery.js') }}"></script>
+
+    <script type="text/javascript">
+
+        var i = 0;
+
+        $("#add").click(function () {
+            ++i;
+            $("#dynamicTable").append('<tr><td><input type="text" name="addMore[' + i + '][name]" placeholder="Enter your Name" class="form-control" /></td><td><input type="text" name="addMore[' + i + '][qty]" placeholder="Enter your Serial Number" class="form-control" /></td><td>' +
+                '<button type="submit" class="  remove-tr text-white bg-red-800 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700">Remove </button></td></tr>');
+        });
+
+        $(document).on('click', '.remove-tr', function () {
+            $(this).parents('tr').remove();
+        });
+
+    </script>
+
     <script>
 
         $('#store_id').change(function () {
