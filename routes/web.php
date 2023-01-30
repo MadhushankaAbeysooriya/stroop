@@ -7,6 +7,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ReceiveController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TempController;
 use App\Http\Controllers\TitleController;
@@ -41,6 +42,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('supplier', SupplierController::class);
     Route::resource('receive', ReceiveController::class);
     Route::resource('issue', IssueController::class);
+    Route::resource('stock', StockController::class);
     Route::resource('temp', TempController::class);
     Route::resource('item', ItemController::class);
     Route::resource('purchase', PurchaseController::class);

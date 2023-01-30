@@ -66,6 +66,10 @@ class PermissionTableSeeder extends Seeder
             'temp-create',
             'temp-edit',
             'temp-delete',
+            'stock-list',
+            'stock-create',
+            'stock-edit',
+            'stock-delete',
         ];
 
         foreach ($permissions as $permission) {

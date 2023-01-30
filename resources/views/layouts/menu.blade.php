@@ -213,6 +213,25 @@
         </li>
     @endcan
 
+    @can('stock-list')
+        <li class="nav-item    has-treeview  {{ request()->is('stock*') ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link  ">
+                <i class="nav-icon text-purple fas fa fa-cash-register"></i>
+                <p>Stocks</p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ route('stock.index') }}"
+                       class="nav-link   {{  request()->is('stock') ? 'active' : '' }} ">
+                        <i
+                            class="far fa-circle nav-icon text-purple"></i>
+                        <p>All Stocks</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    @endcan
+
     @can('temp-list')
         <li class="nav-item    has-treeview  {{ request()->is('temp*') ? 'menu-open' : '' }}">
             <a href="#" class="nav-link  ">
