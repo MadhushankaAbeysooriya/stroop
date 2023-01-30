@@ -24,7 +24,7 @@ class IssueDataTable extends DataTable
             ->eloquent($query)
             ->addIndexColumn()
             ->addColumn('action', function ($item) {
-                return '<div class="w-80"></div><a href="' . route('receive.show', $item->id) . '" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="bottom" title="Receive Details"><i class="fa fa-eye"></i></a>
+                return '<div class="w-80"></div><a href="' . route('issue.show', $item->id) . '" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="bottom" title="Receive Details"><i class="fa fa-eye"></i></a>
                 </div>';
             })->rawColumns(['action']);
     }
@@ -37,7 +37,7 @@ class IssueDataTable extends DataTable
      */
     public function query(Receive $model)
     {
-        return $model->newQuery()->with(['items']);
+        return $model->newQuery()->with(['items'])->select('m_issue_stock.*');
     }
 
     /**

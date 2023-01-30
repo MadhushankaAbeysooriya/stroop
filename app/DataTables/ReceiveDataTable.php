@@ -37,7 +37,7 @@ class ReceiveDataTable extends DataTable
      */
     public function query(Receive $model)
     {
-        return $model->newQuery()->with(['items']);
+        return $model->newQuery()->with(['items'])->select('m_issue_stock.*');
     }
 
     /**

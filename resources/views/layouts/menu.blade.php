@@ -14,7 +14,7 @@
     @can('receive-list')
         <li class="nav-item    has-treeview  {{ request()->is('receive*') ? 'menu-open' : '' }}">
             <a href="#" class="nav-link  ">
-                <i class="nav-icon text-green fas fa fa-ticket-alt"></i>
+                <i class="nav-icon text-green fas fa fa-box"></i>
                 <p>Receive Items</p>
             </a>
             <ul class="nav nav-treeview">
@@ -41,7 +41,7 @@
 @can('issue-list')
         <li class="nav-item    has-treeview  {{ request()->is('issue*') ? 'menu-open' : '' }}">
             <a href="#" class="nav-link  ">
-                <i class="nav-icon text-success fas fa fa-cubes"></i>
+                <i class="nav-icon text-red fas fa fa-shipping-fast"></i>
                 <p>Issue Items</p>
             </a>
             <ul class="nav nav-treeview">
@@ -49,7 +49,7 @@
                     <a href="{{ route('issue.create') }}"
                        class="nav-link {{  request()->is('issue/create*') ? 'active' : '' }}  ">
                         <i
-                            class="far fa-circle nav-icon text-success"></i>
+                            class="far fa-circle nav-icon text-red"></i>
                         <p>New Issue Item</p>
                     </a>
                 </li>
@@ -57,7 +57,7 @@
                     <a href="{{ route('issue.index') }}"
                        class="nav-link   {{  request()->is('issue') ? 'active' : '' }} ">
                         <i
-                            class="far fa-circle nav-icon text-success"></i>
+                            class="far fa-circle nav-icon text-red"></i>
                         <p>All Issue Items</p>
                     </a>
                 </li>

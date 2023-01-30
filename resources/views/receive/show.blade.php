@@ -7,12 +7,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1> {{ $supplier->Sup_Name }}</h1>
+                        <h1> {{ $receive->items->Item_Type }}</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item ">{{ $supplier->Sup_Name }}</li>
+                            <li class="breadcrumb-item ">{{  $receive->items->Item_Type }}</li>
                         </ol>
                     </div>
                 </div>
@@ -33,35 +33,28 @@
                     <div class="form-group row">
                         <label class="col-sm-3" for="Sup_Name">Name</label>
                         <div class="col-sm-9">
-                            <span>{{$supplier->Sup_Name}}</span>
+                            <span>{{$receive->items->Item_Type}}</span>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-3" for="Addrs">Address</label>
+                        <label class="col-sm-3" for="Addrs">Item Code</label>
                         <div class="col-sm-9">
-                            <span>{{$supplier->Addrs}}</span>
+                            <span>{{$receive->items->Item_Code}}</span>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-3" for="Tel">Contact No</label>
+                        <label class="col-sm-3" for="Tel">Qty</label>
                         <div class="col-sm-9">
-                            <span>{{$supplier->Tel}}</span>
+                            <span>{{$receive->quentity}}</span>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-3" for="Fax">Fax No</label>
+                        <label class="col-sm-3" for="Fax">Date</label>
                         <div class="col-sm-9">
-                            <span>{{$supplier->Fax}}</span>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-sm-3" for="Email">Email</label>
-                        <div class="col-sm-9">
-                            <span>{{$supplier->Email}}</span>
+                            <span>{{$receive->Issu_date}}</span>
                         </div>
                     </div>
                 </div>
