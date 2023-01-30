@@ -37,7 +37,7 @@ class ReceiveDataTable extends DataTable
      */
     public function query(Receive $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(['items']);
     }
 
     /**
@@ -71,11 +71,11 @@ class ReceiveDataTable extends DataTable
     {
         return [
             Column::make('DT_RowIndex')->title('#')->searchable(false)->orderable(false),
-            Column::make('quentity')->title("Name"),
-            Column::make('Issu_date')->title("Address"),
-            Column::make('Issu_remarks')->title("Telephone No"),
-            Column::make('Issued_place_id')->title("Fax No"),
-            Column::make('ent_date')->title("Email"),
+            Column::make('items.Item_Type')->title("Item Name"),
+            Column::make('items.Item_Code')->title("Item Code"),
+            Column::make('quentity')->title("Qty"),
+            Column::make('Issu_date')->title("Date"),
+            Column::make('price')->title("Price(LKR)"),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
@@ -91,6 +91,6 @@ class ReceiveDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'category_' . date('YmdHis');
+        return 'm_issue_stock_' . date('YmdHis');
     }
 }

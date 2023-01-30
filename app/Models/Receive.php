@@ -12,4 +12,9 @@ class Receive extends Model
     protected $table = 'm_issue_stock';
     protected $guarded = [];
 
+    public function items()
+    {
+        return $this->hasOne(Item::class, 'id', 'Item_Auto_Id');
+    }
+
 }
