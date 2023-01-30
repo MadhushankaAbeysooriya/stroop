@@ -83,7 +83,7 @@ class IssueController extends Controller
 
         $recive = Receive::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'quentity' => $request->quentity, 'Issu_date' => $request->issue_date, 'Issued_place_id' => $request->issued_place_id,
             'Issued_Type' => $request->Issued_Type, 'issu_sig_unit' => $request->issu_sig_unit, 'Voucher_No' => $request->Voucher_No, 'fcolor' => $fcolor, 'Issu_remarks' => $request->Issu_remarks,
-            'ent_date' => Carbon::now(), 'ent_user_id' => Auth::user()->id, 'rec_from' => 1, 'warranty' => 0, 'duration' => 0, 'price' => 0, 'warranty_act_date' => Carbon::now(),
+            'ent_date' => Carbon::now(), 'ent_user_id' => Auth::user()->id, 'rec_from' => 1, 'warranty' => 0, 'Is_Issued' => 1, 'duration' => 0, 'price' => 0, 'warranty_act_date' => Carbon::now(),
         ]);
 
         if (isset($request->addmore)) {

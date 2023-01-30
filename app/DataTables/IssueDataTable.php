@@ -37,7 +37,7 @@ class IssueDataTable extends DataTable
      */
     public function query(Receive $model)
     {
-        return $model->newQuery()->with(['items'])->select('m_issue_stock.*');
+        return $model->newQuery()->with(['items'])->where('Is_Issued',1)->select('m_issue_stock.*');
     }
 
     /**
