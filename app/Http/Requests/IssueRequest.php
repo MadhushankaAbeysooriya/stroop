@@ -27,8 +27,7 @@ class IssueRequest extends FormRequest
             'Item_Auto_Id' => 'required',
             'quentity' => 'required',
             'Voucher_No' => 'required',
-            'price' => 'required',
-            'rec_from' => 'required',
+            'Issu_remarks' => 'required'
         ];
     }
 }

@@ -53,7 +53,7 @@ class IssueController extends Controller
         $recivePlace = RecivePlace::all();
         $issuePlace = Establishment::all();
         $sigUnit = SigUnit::all();
-        return view('issue.create', compact('stores', 'icts', 'equipments', 'titles', 'purchase', 'recivePlace','issuePlace','sigUnit'));
+        return view('issue.create', compact('stores', 'icts', 'equipments', 'titles', 'purchase', 'recivePlace', 'issuePlace', 'sigUnit'));
     }
 
     /**
@@ -62,16 +62,33 @@ class IssueController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(IssueDataTable $request)
+    public function store(IssueRequest $request)
     {
-        $recive = Receive::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'quentity' => $request->quentity, 'Issu_date' => $request->Issu_date, 'Issu_remarks' => $request->Issu_remarks, 'Issued_place_id' => 1,
-            'ent_date' => Carbon::now(), 'ent_user_id' => Auth::user()->id, 'Voucher_No' => $request->Voucher_No, 'rec_from' => $request->rec_from, 'warranty' => $request->warranty,
-            'duration' => $request->duration, 'price' => $request->price, 'warranty_act_date' => $request->warranty_act_date, 'Issued_Type' => 0, 'fcolor' => 'red'
+
+        if ($request->Issued_Type == 'G2') {
+            $fcolor = 'blue';
+        }
+
+        if ($request->Issued_Type == 'Q5') {
+            $fcolor = 'blue';
+        }
+
+        if ($request->Issued_Type == 'G4') {
+            $fcolor = 'black';
+        }
+
+        if ($request->Issued_Type == 'JC') {
+            $fcolor = 'yellow';
+        }
+
+        $recive = Receive::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'quentity' => $request->quentity, 'Issu_date' => $request->issue_date, 'Issued_place_id' => $request->issued_place_id,
+            'Issued_Type' => $request->Issued_Type, 'issu_sig_unit' => $request->issu_sig_unit, 'Voucher_No' => $request->Voucher_No, 'fcolor' => $fcolor, 'Issu_remarks' => $request->Issu_remarks,
+            'ent_date' => Carbon::now(), 'ent_user_id' => Auth::user()->id, 'rec_from' => 1, 'warranty' => 0, 'duration' => 0, 'price' => 0, 'warranty_act_date' => Carbon::now(),
         ]);
 
         if (isset($request->addmore)) {
             foreach ($request->addmore as $ser) {
-                SerNo::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'stk_Auto_Id' => $recive->id,'Seri_No' => $ser['ser'], 'name' => $ser['name']]);
+                SerNo::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'stk_Auto_Id' => $recive->id, 'Seri_No' => $ser['ser'], 'name' => $ser['name']]);
             }
         }
 

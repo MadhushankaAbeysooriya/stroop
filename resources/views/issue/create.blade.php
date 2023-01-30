@@ -183,7 +183,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-3" for="warranty_act_date">Assigned Date</label>
+                            <label class="col-sm-3" for="issue_date">Assigned Date</label>
                             <div class="col-sm-9">
                                 <div class="relative">
                                     <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -270,6 +270,21 @@
                                     @endforeach
                                 </select>
                                 @error('issu_sig_unit')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3" for="Issu_remarks">Remarks</label>
+                            <div class="col-sm-9">
+                                <textarea type="text" name="Issu_remarks"
+                                          class="form-control   @error('Issu_remarks') is-invalid @enderror"
+                                          id="Issu_remarks"
+                                          placeholder="Remarks">{{old('Issu_remarks')}}</textarea>
+                                @error('Issu_remarks')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
