@@ -62,6 +62,10 @@ class PermissionTableSeeder extends Seeder
             'issue-create',
             'issue-edit',
             'issue-delete',
+            'temp-list',
+            'temp-create',
+            'temp-edit',
+            'temp-delete',
         ];
 
         foreach ($permissions as $permission) {

@@ -213,6 +213,33 @@
         </li>
     @endcan
 
+    @can('temp-list')
+        <li class="nav-item    has-treeview  {{ request()->is('temp*') ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link  ">
+                <i class="nav-icon text-pink fas fa fa-building"></i>
+                <p>Return Temp Issued</p>
+            </a>
+            <ul class="nav nav-treeview">
+{{--                <li class="nav-item">--}}
+{{--                    <a href="{{ route('temp.create') }}"--}}
+{{--                       class="nav-link {{  request()->is('temp/create*') ? 'active' : '' }}  ">--}}
+{{--                        <i--}}
+{{--                            class="far fa-circle nav-icon text-pink"></i>--}}
+{{--                        <p>New Temp Issued </p>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+                <li class="nav-item">
+                    <a href="{{ route('temp.index') }}"
+                       class="nav-link   {{  request()->is('temp') ? 'active' : '' }} ">
+                        <i
+                            class="far fa-circle nav-icon text-pink"></i>
+                        <p>All Temp Issued</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    @endcan
+
     <li class="nav-item    has-treeview  {{ request()->is('settings*') ? 'menu-open' : '' }}">
         <a href="#" class="nav-link  ">
             <i class="nav-icon text-yellow fas fa fa-cog"></i>
