@@ -12,6 +12,7 @@ use App\Models\Receive;
 use App\Models\RecivePlace;
 use App\Models\SerNo;
 use App\Models\SigUnit;
+use App\Models\Stock;
 use App\Models\Store;
 use App\Models\Title;
 use Illuminate\Support\Carbon;
@@ -85,6 +86,10 @@ class IssueController extends Controller
             'Issued_Type' => $request->Issued_Type, 'issu_sig_unit' => $request->issu_sig_unit, 'Voucher_No' => $request->Voucher_No, 'fcolor' => $fcolor, 'Issu_remarks' => $request->Issu_remarks,
             'ent_date' => Carbon::now(), 'ent_user_id' => Auth::user()->id, 'rec_from' => 1, 'warranty' => 0, 'Is_Issued' => 1, 'duration' => 0, 'price' => 0, 'warranty_act_date' => Carbon::now(),
         ]);
+
+        $stock = Stock::where('item_id', $request->Item_Auto_Id);
+
+        $stock->update(['item_id' => $request->Item_Auto_Id, 'qty' => $stock->first()->qty - $request->quentity, 'last_txn_type' => 'in']);
 
         if (isset($request->addmore)) {
             foreach ($request->addmore as $ser) {

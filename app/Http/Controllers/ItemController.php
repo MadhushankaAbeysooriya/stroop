@@ -8,6 +8,7 @@ use App\Models\Equipment;
 use App\Models\ICTCategory;
 use App\Models\Item;
 use App\Models\MesureUnit;
+use App\Models\Stock;
 use App\Models\Store;
 use App\Models\Title;
 use App\Models\Vote;
@@ -96,7 +97,8 @@ class ItemController extends Controller
 
         $itemData['Item_Code'] = $newcode;
 
-        Item::create($itemData);
+        $item = Item::create($itemData);
+        Stock::create(['item_id' => $item->id, 'qty' => 0, 'last_txn_type' => 'in']);
 
         return redirect()->route('item.index')
             ->with('message', 'Item created successfully.');

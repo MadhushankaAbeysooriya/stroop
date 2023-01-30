@@ -10,6 +10,7 @@ use App\Models\Purchase;
 use App\Models\Receive;
 use App\Models\RecivePlace;
 use App\Models\SerNo;
+use App\Models\Stock;
 use App\Models\Store;
 use App\Models\Supplier;
 use App\Models\Title;
@@ -66,9 +67,13 @@ class ReceiveController extends Controller
             'duration' => $request->duration, 'price' => $request->price, 'warranty_act_date' => $request->warranty_act_date, 'Issued_Type' => 0, 'fcolor' => 'red'
         ]);
 
+        $stock = Stock::where('item_id', $request->Item_Auto_Id);
+
+        $stock->update(['item_id' => $request->Item_Auto_Id, 'qty' => $stock->first()->qty + $request->quentity, 'last_txn_type' => 'in']);
+
         if (isset($request->addmore)) {
             foreach ($request->addmore as $ser) {
-                SerNo::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'stk_Auto_Id' => $recive->id,'Seri_No' => $ser['ser'], 'name' => $ser['name']]);
+                SerNo::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'stk_Auto_Id' => $recive->id, 'Seri_No' => $ser['ser'], 'name' => $ser['name']]);
             }
         }
 
