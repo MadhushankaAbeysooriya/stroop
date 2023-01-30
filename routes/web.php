@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ajaxController;
 use App\Http\Controllers\EstablishmentController;
+use App\Http\Controllers\IssueController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ReceiveController;
@@ -38,6 +39,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('establishment', EstablishmentController::class);
     Route::resource('supplier', SupplierController::class);
     Route::resource('receive', ReceiveController::class);
+    Route::resource('issue', IssueController::class);
     Route::resource('item', ItemController::class);
     Route::resource('purchase', PurchaseController::class);
     Route::resource('vote', VoteController::class);

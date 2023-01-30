@@ -1,0 +1,134 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\DataTables\IssueDataTable;
+use App\Http\Requests\IssueRequest;
+use App\Models\Equipment;
+use App\Models\Establishment;
+use App\Models\ICTCategory;
+use App\Models\Purchase;
+use App\Models\Receive;
+use App\Models\RecivePlace;
+use App\Models\SerNo;
+use App\Models\SigUnit;
+use App\Models\Store;
+use App\Models\Title;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+
+class IssueController extends Controller
+{
+
+    function __construct()
+    {
+        $this->middleware('permission:issue-list|receive-create|issue-edit|issue-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:issue-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:issue-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:issue-delete', ['only' => ['destroy']]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(IssueDataTable $dataTable)
+    {
+        return $dataTable->render('issue.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function create()
+    {
+        $stores = Store::all();
+        $icts = ICTCategory::all();
+        $equipments = Equipment::all();
+        $titles = Title::all();
+        $purchase = Purchase::all();
+        $recivePlace = RecivePlace::all();
+        $issuePlace = Establishment::all();
+        $sigUnit = SigUnit::all();
+        return view('issue.create', compact('stores', 'icts', 'equipments', 'titles', 'purchase', 'recivePlace','issuePlace','sigUnit'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(IssueDataTable $request)
+    {
+        $recive = Receive::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'quentity' => $request->quentity, 'Issu_date' => $request->Issu_date, 'Issu_remarks' => $request->Issu_remarks, 'Issued_place_id' => 1,
+            'ent_date' => Carbon::now(), 'ent_user_id' => Auth::user()->id, 'Voucher_No' => $request->Voucher_No, 'rec_from' => $request->rec_from, 'warranty' => $request->warranty,
+            'duration' => $request->duration, 'price' => $request->price, 'warranty_act_date' => $request->warranty_act_date, 'Issued_Type' => 0, 'fcolor' => 'red'
+        ]);
+
+        if (isset($request->addmore)) {
+            foreach ($request->addmore as $ser) {
+                SerNo::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'stk_Auto_Id' => $recive->id,'Seri_No' => $ser['ser'], 'name' => $ser['name']]);
+            }
+        }
+
+        return redirect()->route('issue.index')
+            ->with('message', 'Issue created successfully.');
+    }
+
+    /**
+     * /**
+     * Display the specified resource.
+     *
+     * @param \App\Models\Receive $issue
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function show(Receive $issue)
+    {
+        return view('issue.show', compact('issue'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param \App\Models\Receive $receive
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function edit(Receive $issue)
+    {
+        return view('issue.edit', compact('issue'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Receive $issue
+     * @return \Illuminate\Http\RedirectResponse
+     */
+
+    public function update(IssueRequest $request, Receive $issue)
+    {
+
+        $issue->update(['Sup_Name' => $request->Sup_Name, 'Addrs' => $request->Addrs, 'Tel' => $request->Tel, 'Fax' => $request->Fax, 'Email' => $request->Email,
+            'edit_date' => Carbon::now(), 'editer_id' => Auth::user()->id]);
+        return redirect()->route('issue.index')
+            ->with('message', 'Issue update successfully.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param \App\Models\Receive $issue
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Receive $issue)
+    {
+        $issue->update(['active' => $issue->active == 1 ? 0 : 1]);
+        return redirect()->route('issue.index')
+            ->with('message', 'Issue status successfully');
+    }
+}

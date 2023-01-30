@@ -38,6 +38,33 @@
         </li>
     @endcan
 
+@can('issue-list')
+        <li class="nav-item    has-treeview  {{ request()->is('issue*') ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link  ">
+                <i class="nav-icon text-success fas fa fa-cubes"></i>
+                <p>Issue Items</p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ route('issue.create') }}"
+                       class="nav-link {{  request()->is('issue/create*') ? 'active' : '' }}  ">
+                        <i
+                            class="far fa-circle nav-icon text-success"></i>
+                        <p>New Issue Item</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('issue.index') }}"
+                       class="nav-link   {{  request()->is('issue') ? 'active' : '' }} ">
+                        <i
+                            class="far fa-circle nav-icon text-success"></i>
+                        <p>All Issue Items</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    @endcan
+
 
     @can('item-list')
         <li class="nav-item    has-treeview  {{ request()->is('item*') || request()->is('title*')? 'menu-open' : '' }}">
