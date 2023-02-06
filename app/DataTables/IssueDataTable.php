@@ -37,7 +37,9 @@ class IssueDataTable extends DataTable
      */
     public function query(Receive $model)
     {
-        return $model->newQuery()->with(['items'])->where('Is_Issued',1)->select('m_issue_stock.*');
+        return $model->newQuery()->with(['items','issue_place'])->where('Is_Issued',1)
+        ->where('Issued_place_id',Auth()->user()->estb_id)
+        ->select('m_issue_stock.*');
     }
 
     /**

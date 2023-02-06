@@ -234,7 +234,7 @@
                                         class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="Q5">Q5</option>
                                     <option value="G2">G2</option>
-                                    <option value="G4">G4 (Temporary)</option>
+                                    <option value="G4">Temporary</option>
                                     <option value="JC">Job Card</option>
                                 </select>
                                 @error('Issued_Type')

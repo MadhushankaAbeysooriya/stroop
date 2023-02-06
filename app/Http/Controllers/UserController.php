@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\UsersDataTable;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
-use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
+use App\Models\Establishment;
+use App\DataTables\UsersDataTable;
+use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -33,7 +34,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::pluck('name', 'name')->all();
-        return view('users.create', compact('roles', ));
+        $estbs = Establishment::all();
+        return view('users.create', compact('roles','estbs'));
     }
 
     /**
@@ -75,7 +77,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::pluck('name', 'name')->all();
-        return view('users.edit', compact('user', 'roles'));
+        $estbs = Establishment::all();
+        return view('users.edit', compact('user', 'roles','estbs'));
     }
 
     /**
@@ -85,8 +88,14 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UserRequest $request, $id)
+    public function update(Request $request, $id)
     {
+        //dd($request);
+
+        $request->validate([
+            'email'=>'required|email|unique:users,email,'.$id
+        ]);
+
         $input = $request->all();
         if (!empty($input['password'])) {
             $input['password'] = Hash::make($input['password']);

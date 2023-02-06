@@ -76,6 +76,7 @@ class ReceiveDataTable extends DataTable
             Column::make('quentity')->title("Qty"),
             Column::make('Issu_date')->title("Date"),
             Column::make('price')->title("Price(LKR)"),
+            Column::make('rec_from')->title("Rec"),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

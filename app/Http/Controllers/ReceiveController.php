@@ -67,9 +67,23 @@ class ReceiveController extends Controller
             'duration' => $request->duration, 'price' => $request->price, 'warranty_act_date' => $request->warranty_act_date, 'Issued_Type' => 0, 'fcolor' => 'red'
         ]);
 
-        $stock = Stock::where('item_id', $request->Item_Auto_Id);
-
-        $stock->update(['item_id' => $request->Item_Auto_Id, 'qty' => $stock->first()->qty + $request->quentity, 'last_txn_type' => 'in']);
+        $stock = Stock::where('item_id', $request->Item_Auto_Id)
+                        ->where('estb_id',Auth()->user()->estb_id);
+        // if(count($stock) > 0){
+            $stock->update([
+                //'item_id' => $request->Item_Auto_Id, 
+                'qty' => $stock->first()->qty + $request->quentity, 
+                'last_txn_type' => 'in'
+            ]);
+        // }else{
+        //     Stock::create([
+        //         'item_id' => $request->Item_Auto_Id,
+        //         'qty' => $request->quentity, 
+        //         'last_txn_type' => 'in',
+        //         'estb_id' => Auth()->user()->estb_id,
+        //     ]);
+        // }
+            
 
         if (isset($request->addmore)) {
             foreach ($request->addmore as $ser) {

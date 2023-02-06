@@ -36,6 +36,7 @@ class IssueController extends Controller
      */
     public function index(IssueDataTable $dataTable)
     {
+        //(Auth()->user()->estb_id);
         return $dataTable->render('issue.index');
     }
 
@@ -89,7 +90,7 @@ class IssueController extends Controller
 
         $stock = Stock::where('item_id', $request->Item_Auto_Id);
 
-        $stock->update(['item_id' => $request->Item_Auto_Id, 'qty' => $stock->first()->qty - $request->quentity, 'last_txn_type' => 'in']);
+        $stock->update(['item_id' => $request->Item_Auto_Id, 'qty' => $stock->first()->qty - $request->quentity, 'last_txn_type' => 'out']);
 
         if (isset($request->addmore)) {
             foreach ($request->addmore as $ser) {
