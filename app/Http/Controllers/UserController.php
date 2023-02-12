@@ -76,6 +76,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        //dd($user);
         $roles = Role::pluck('name', 'name')->all();
         $estbs = Establishment::all();
         return view('users.edit', compact('user', 'roles','estbs'));

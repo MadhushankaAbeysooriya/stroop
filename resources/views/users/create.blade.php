@@ -110,17 +110,17 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-3" for="estb">Establishment</label>
+                            <label class="col-sm-3" for="estb_id">Establishment</label>
                             <div class="col-sm-9">
-                                <select required name="estb" id="estb"
+                                <select required name="estb_id" id="estb_id"
                                         class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option selected value="">Choose Establishment</option>
                                     @foreach($estbs as $item)
                                         <option
-                                            @selected($item->id == old('estb')) value="{{$item->id}}">{{$item->issue_place}}</option>
+                                            @selected($item->id == old('estb_id')) value="{{$item->id}}">{{$item->issue_place}}</option>
                                     @endforeach
                                 </select>
-                                @error('estb')
+                                @error('estb_id')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

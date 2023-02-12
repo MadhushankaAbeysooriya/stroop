@@ -32,10 +32,8 @@ class Item extends Model
         return $this->hasOne(MesureUnit::class, 'id', 'Unit_Of_Issue');
     }
 
- public function equipment()
+    public function equipment()
     {
         return $this->hasOne(Equipment::class, 'id', 'category_type');
     }
-
-
 }

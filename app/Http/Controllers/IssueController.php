@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\IssueDataTable;
-use App\Http\Requests\IssueRequest;
-use App\Models\Equipment;
-use App\Models\Establishment;
-use App\Models\ICTCategory;
-use App\Models\Purchase;
-use App\Models\Receive;
-use App\Models\RecivePlace;
 use App\Models\SerNo;
-use App\Models\SigUnit;
 use App\Models\Stock;
 use App\Models\Store;
 use App\Models\Title;
+use App\Models\Receive;
+use App\Models\SigUnit;
+use App\Models\Purchase;
+use App\Models\Equipment;
+use App\Models\ICTCategory;
+use App\Models\RecivePlace;
+use App\Models\Establishment;
 use Illuminate\Support\Carbon;
+use App\DataTables\IssueDataTable;
+use App\Http\Requests\IssueRequest;
 use Illuminate\Support\Facades\Auth;
+use App\DataTables\IssueApproveIssueDataTable;
 
 class IssueController extends Controller
 {
@@ -86,6 +87,7 @@ class IssueController extends Controller
         $recive = Receive::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'quentity' => $request->quentity, 'Issu_date' => $request->issue_date, 'Issued_place_id' => $request->issued_place_id,
             'Issued_Type' => $request->Issued_Type, 'issu_sig_unit' => $request->issu_sig_unit, 'Voucher_No' => $request->Voucher_No, 'fcolor' => $fcolor, 'Issu_remarks' => $request->Issu_remarks,
             'ent_date' => Carbon::now(), 'ent_user_id' => Auth::user()->id, 'rec_from' => 1, 'warranty' => 0, 'Is_Issued' => 1, 'duration' => 0, 'price' => 0, 'warranty_act_date' => Carbon::now(),
+            'estb_id' =>Auth()->user()->estb_id,
         ]);
 
         $stock = Stock::where('item_id', $request->Item_Auto_Id);
@@ -94,7 +96,11 @@ class IssueController extends Controller
 
         if (isset($request->addmore)) {
             foreach ($request->addmore as $ser) {
-                SerNo::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'stk_Auto_Id' => $recive->id, 'Seri_No' => $ser['ser'], 'name' => $ser['name']]);
+                //dd($ser['ser']); 
+                $ser_no = SerNo::where('Seri_No','=',$ser['ser']);
+                //dd($ser_no);
+                //SerNo::update(['Item_Auto_Id' => $request->Item_Auto_Id, 'stk_Auto_Id' => $recive->id, 'Seri_No' => $ser['ser'], 'name' => $ser['name']]);
+                $ser_no->update(['estb_id' => $request->issu_sig_unit]);
             }
         }
 
@@ -142,6 +148,8 @@ class IssueController extends Controller
             ->with('message', 'Issue update successfully.');
     }
 
+
+
     /**
      * Remove the specified resource from storage.
      *
@@ -153,5 +161,12 @@ class IssueController extends Controller
         $issue->update(['active' => $issue->active == 1 ? 0 : 1]);
         return redirect()->route('issue.index')
             ->with('message', 'Issue status successfully');
+    }
+
+    public function issue_approve_issue(IssueApproveIssueDataTable $dataTable)
+    {
+        //(Auth()->user()->estb_id);
+        //dd('in');
+        return $dataTable->render('issue.fwd');
     }
 }

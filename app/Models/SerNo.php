@@ -11,5 +11,4 @@ class SerNo extends Model
 
     protected $table = 'm_seri_no';
     protected $guarded = [];
-
 }
