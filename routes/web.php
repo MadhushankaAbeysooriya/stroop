@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('supplier', SupplierController::class);
     Route::resource('receive', ReceiveController::class);
     Route::get('issue/approve',[IssueController::class,'issue_approve_issue'])->name('issue.approve');
+    Route::get('issue/forward/{issue}',[IssueController::class,'issue_forward'])->name('issue.forward');
     Route::resource('issue', IssueController::class);        
     Route::resource('stock', StockController::class);
     Route::resource('temp', TempController::class);

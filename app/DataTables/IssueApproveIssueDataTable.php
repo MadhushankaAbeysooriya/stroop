@@ -24,9 +24,15 @@ class IssueApproveIssueDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'issueapproveissue.action')
+            //->addColumn('action', 'issueapproveissue.action')
             ->setRowId('id')
-            ->addIndexColumn();
+            ->addIndexColumn()
+            ->addColumn('action', function ($item) {
+                return '<div class="w-80"></div><a href="' . route('issue.forward', $item->id) . '" 
+                class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="bottom" 
+                title="Forward"><i class="fa fa-forward"></i></a>
+                </div>';
+            })->rawColumns(['action']);
     }
 
     /**

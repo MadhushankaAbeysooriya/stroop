@@ -87,7 +87,7 @@ class IssueController extends Controller
         $recive = Receive::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'quentity' => $request->quentity, 'Issu_date' => $request->issue_date, 'Issued_place_id' => $request->issued_place_id,
             'Issued_Type' => $request->Issued_Type, 'issu_sig_unit' => $request->issu_sig_unit, 'Voucher_No' => $request->Voucher_No, 'fcolor' => $fcolor, 'Issu_remarks' => $request->Issu_remarks,
             'ent_date' => Carbon::now(), 'ent_user_id' => Auth::user()->id, 'rec_from' => 1, 'warranty' => 0, 'Is_Issued' => 1, 'duration' => 0, 'price' => 0, 'warranty_act_date' => Carbon::now(),
-            'estb_id' =>Auth()->user()->estb_id,
+            'estb_id' => Auth()->user()->estb_id,
         ]);
 
         $stock = Stock::where('item_id', $request->Item_Auto_Id);
@@ -100,7 +100,11 @@ class IssueController extends Controller
                 $ser_no = SerNo::where('Seri_No','=',$ser['ser']);
                 //dd($ser_no);
                 //SerNo::update(['Item_Auto_Id' => $request->Item_Auto_Id, 'stk_Auto_Id' => $recive->id, 'Seri_No' => $ser['ser'], 'name' => $ser['name']]);
-                $ser_no->update(['estb_id' => $request->issu_sig_unit]);
+                $ser_no->update([
+                    'estb_id' => $request->issu_sig_unit, 
+                    'Is_Issued' => 1, 
+                    'stk_Auto_Id' => $recive->id
+                ]);
             }
         }
 
@@ -168,5 +172,29 @@ class IssueController extends Controller
         //(Auth()->user()->estb_id);
         //dd('in');
         return $dataTable->render('issue.fwd');
+    }
+
+    public function issue_forward(Receive $issue)
+    {  
+        //dd($issue->Issued_place_id);      
+        $issue->update([
+            'fwd' => 1,
+        ]);
+
+        $ser_no = SerNo::where('stk_Auto_Id','=',$issue->id)->get();
+
+        //dd($ser_no);
+        if(count($ser_no) > 0)
+        {
+            foreach($ser_no as $ser)
+            {
+                $ser->update([
+                    'estb_id' => $issue->Issued_place_id,
+                ]);                
+            }
+
+        }
+        
+        return redirect()->route('issue.approve')->with('message', 'Forward Successfully');
     }
 }

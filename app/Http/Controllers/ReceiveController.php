@@ -64,7 +64,8 @@ class ReceiveController extends Controller
     {
         $recive = Receive::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'quentity' => $request->quentity, 'Issu_date' => $request->Issu_date, 'Issu_remarks' => $request->Issu_remarks, 'Issued_place_id' => 1,
             'ent_date' => Carbon::now(), 'ent_user_id' => Auth::user()->id, 'Voucher_No' => $request->Voucher_No, 'rec_from' => $request->rec_from, 'warranty' => $request->warranty,
-            'duration' => $request->duration, 'price' => $request->price, 'warranty_act_date' => $request->warranty_act_date, 'Issued_Type' => 0, 'fcolor' => 'red'
+            'duration' => $request->duration, 'price' => $request->price, 'warranty_act_date' => $request->warranty_act_date, 'Issued_Type' => 0, 'fcolor' => 'red',
+            'estb_id' => Auth()->user()->estb_id,
         ]);
 
         $stock = Stock::where('item_id', $request->Item_Auto_Id);
@@ -87,7 +88,13 @@ class ReceiveController extends Controller
 
         if (isset($request->addmore)) {
             foreach ($request->addmore as $ser) {
-                SerNo::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'stk_Auto_Id' => $recive->id, 'Seri_No' => $ser['ser'], 'name' => $ser['name']]);
+                SerNo::create([
+                    'Item_Auto_Id' => $request->Item_Auto_Id, 
+                    'stk_Auto_Id' => $recive->id, 
+                    'Seri_No' => $ser['ser'], 
+                    'name' => $ser['name'], 
+                    'estb_id' => Auth()->user()->estb_id
+                ]);
             }
         }
 
