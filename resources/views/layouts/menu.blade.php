@@ -237,6 +237,18 @@
                     </a>
                 </li>
             </ul>
+
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ route('serno.index') }}"
+                       class="nav-link   {{  request()->is('serno') ? 'active' : '' }} ">
+                        <i
+                            class="far fa-circle nav-icon text-purple"></i>
+                        <p>Search S/N</p>
+                    </a>
+                </li>
+            </ul>
+
         </li>
     @endcan
 

@@ -100,7 +100,7 @@ class IssueApproveIssueDataTable extends DataTable
         return [
             Column::make('DT_RowIndex')->title('#')->searchable(false)->orderable(false),
             Column::make('items.Item_Code')->title("Item Code"),
-            Column::make('id')->title("ID"),
+            //Column::make('id')->title("ID"),
             Column::make('items.Item_Type')->title("Item Name"),
             Column::make('quentity')->title("Qty"),
             Column::make('Issu_date')->title("Date"),

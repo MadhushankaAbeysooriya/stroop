@@ -73,7 +73,7 @@ class ItemsDataTable extends DataTable
         return [
             Column::make('DT_RowIndex')->title('#')->searchable(false)->orderable(false),
             Column::make('Item_Code')->title("Code"),
-            Column::computed('Item_Type')->title("Name"),
+            Column::make('Item_Type')->title("Name"),
             Column::make('Leger_No')->title("Leger No"),
             Column::make('reorder')->title("Re-O-Lvl"),
             Column::make('comreserve')->title("Comd Res"),

@@ -72,7 +72,8 @@ class StockDataTable extends DataTable
             Column::make('DT_RowIndex')->title('#')->searchable(false)->orderable(false),
             Column::make('item.Item_Type')->title("Item Name"),
             Column::make('qty')->title("Qty"),
-            Column::make('below_qty')->title("Re-Order level"),
+            Column::make('item.reorder')->title("Re-order Level"),
+            Column::make('item.comreserve')->title("Commander Reserve"),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

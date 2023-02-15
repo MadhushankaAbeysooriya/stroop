@@ -125,6 +125,20 @@
                         </div>
 
                         <div class="form-group row">
+                            <label class="col-sm-3" for="quentity">Quantity</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="quentity"
+                                       class="form-control   @error('quentity') is-invalid @enderror" id="quentity"
+                                       placeholder="Quentity" value="{{ old('quentity') }}">
+                                @error('quentity')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label class="col-sm-3" for="Item_Auto_Id">Add Serial Number</label>
                             <div class="col-sm-9">
                                 <table class="table" id="dynamicTable">
@@ -149,19 +163,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label class="col-sm-3" for="quentity">Quentity</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="quentity"
-                                       class="form-control   @error('quentity') is-invalid @enderror" id="quentity"
-                                       placeholder="Quentity" value="{{ old('quentity') }}">
-                                @error('quentity')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        
 
                         <div class="form-group row">
                             <label class="col-sm-3" for="Voucher_No">Purchase Order No</label>
@@ -232,6 +234,7 @@
                             <div class="col-sm-9">
                                 <select required name="Issued_Type" id="Issued_Type"
                                         class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option value="">Select</option>
                                     <option value="Q5">Q5</option>
                                     <option value="G2">G2</option>
                                     <option value="G4">Temporary</option>
@@ -245,8 +248,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label class="col-sm-3" for="card_number">Job Card Number (If Required)</label>
+                        <div class="form-group row" id="job_card">
+                            <label class="col-sm-3" for="card_number">Job Card Number</label>
                             <div class="col-sm-9">
                                 <input type="text" name="card_number"
                                        class="form-control   @error('card_number') is-invalid @enderror" id="card_number"
@@ -316,6 +319,33 @@
     <script src="{{ asset('plugin/jquery/jquery.js') }}"></script>
 
     <script type="text/javascript">
+
+        $(document).ready(function() {
+            $('#Issued_Type').on('change', function() {
+                if ($(this).val() == 'JC') {
+                $('#job_card').show();
+                } else {
+                $('#job_card').hide();
+                }
+            });
+        });
+
+        $("#quentity").keyup(function () {
+            var qty = 0;
+            var userInput = $(this).val(); 
+           
+            qty = parseInt(userInput);
+            console.log(qty);
+
+            //$("#dynamicTable tr").not(":first").remove();
+            $("#dynamicTable").find("tr:gt(1)").remove();
+            
+            for(var i = 0; i < qty-1; i++)
+            {
+                $("#dynamicTable").append('<tr><td><input type="text" name="addmore[' + i + '][name]" placeholder="Enter your Name" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][ser]" placeholder="Enter your Serial Number" class="form-control" /></td><td>' +
+                '<button type="submit" class="  remove-tr text-white bg-red-800 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700">Remove </button></td></tr>');
+            }
+        });
 
         var i = 0;
 

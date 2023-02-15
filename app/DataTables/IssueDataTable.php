@@ -23,10 +23,34 @@ class IssueDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addIndexColumn()
+            ->addColumn('issue_type',function($type){
+                switch ($type->Issued_Type) {
+                    case 'Q5':
+                        return '<h5><span class="badge badge-primary">Q5</span></h5>';
+                        break;
+                    case 'G2':
+                        return '<h5><span class="badge badge-primary">G2</span></h5>';
+                        break;
+                    case 'G4':
+                        return '<h5><span class="badge badge-primary">Temporary</span></h5>';
+                        break;
+                    case 'JC':
+                        return '<h5><span class="badge badge-primary">Job Card</span></h5>';
+                        break;
+                    default:
+                        return '<h5><span class="badge badge-primary">error</span></h5>';
+                        break;
+                }                
+            })
+            ->addColumn('fwd', function($status){                
+                return ($status->fwd==1)?'<h5><span class="badge badge-primary">Forwarded</span></h5>':
+                '<h5><span class="badge badge-warning">Pending</span></h5>';
+            })
             ->addColumn('action', function ($item) {
-                return '<div class="w-80"></div><a href="' . route('issue.show', $item->id) . '" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="bottom" title="Receive Details"><i class="fa fa-eye"></i></a>
+                return '<div class="w-80"></div><a href="' . route('issue.show', $item->id) . '" 
+                class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="bottom" title="Receive Details"><i class="fa fa-eye"></i></a>
                 </div>';
-            })->rawColumns(['action']);
+            })->rawColumns(['action','fwd','issue_type']);
     }
 
     /**
@@ -37,8 +61,8 @@ class IssueDataTable extends DataTable
      */
     public function query(Receive $model)
     {
-        return $model->newQuery()->with(['items','issue_place'])->where('Is_Issued',1)
-        ->where('estb_id',Auth()->user()->estb_id)
+        return $model->newQuery()->with(['items','issue_place','sig_unit'])->where('Is_Issued',1)
+        //->where('estb_id',Auth()->user()->estb_id)
         ->select('m_issue_stock.*');
     }
 
@@ -77,7 +101,11 @@ class IssueDataTable extends DataTable
             Column::make('items.Item_Type')->title("Item Name"),
             Column::make('quentity')->title("Qty"),
             Column::make('Issu_date')->title("Date"),
-            Column::make('price')->title("Price(LKR)"),
+            //Column::make('price')->title("Price(LKR)"),
+            Column::make('issue_place.place_discription')->title("Issue Place"),
+            Column::make('sig_unit.sig_unit_name')->title("Sig Unit"),
+            Column::make('issue_type')->data('issue_type')->title('Issue Type'),
+            Column::make('fwd')->data('fwd')->title('Status'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

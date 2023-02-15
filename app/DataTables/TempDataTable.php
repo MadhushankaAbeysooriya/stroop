@@ -23,10 +23,16 @@ class TempDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addIndexColumn()
+            // ->addColumn('action', function ($item) {
+            //     return '<div class="w-80"></div><a href="' . route('receive.show', $item->id) . '" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="bottom" title="Receive Details"><i class="fa fa-eye"></i></a>
+            //     </div>';
             ->addColumn('action', function ($item) {
-                return '<div class="w-80"></div><a href="' . route('receive.show', $item->id) . '" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="bottom" title="Receive Details"><i class="fa fa-eye"></i></a>
+                return '<div class="w-80"></div><a href="' . route('issue.return', $item->id) . '" 
+                class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="bottom" 
+                title="Return"><i class="fa fa-redo"></i></a>
                 </div>';
             })->rawColumns(['action']);
+            
     }
 
     /**
@@ -37,7 +43,11 @@ class TempDataTable extends DataTable
      */
     public function query(Receive $model)
     {
-        return $model->newQuery()->with(['items'])->where('Issued_Type','G4')->select('m_issue_stock.*');
+        return $model->newQuery()->with(['items'])->where('Issued_Type','G4')
+        ->where('fwd',1)
+        ->where('rtn',0)
+        //->where('estb_id',Auth()->user()->estb_id)
+        ->select('m_issue_stock.*');
     }
 
     /**
@@ -54,7 +64,7 @@ class TempDataTable extends DataTable
             ->dom('Bfrtip')
             ->orderBy(1)
             ->buttons(
-                Button::make('create'),
+                //Button::make('create'),
                 Button::make('export'),
                 Button::make('print'),
                 Button::make('reset'),

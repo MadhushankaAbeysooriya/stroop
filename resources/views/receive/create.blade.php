@@ -31,7 +31,7 @@
                 </div>
 
 
-                <form role="form" method="POST" action="{{ route('receive.store') }}"
+                <form role="form" method="POST" action="{{ route('receive.store') }}" id="myForm"
                       enctype="multipart/form-data">
                     @csrf
                     @method('POST')
@@ -125,6 +125,22 @@
                         </div>
 
                         <div class="form-group row">
+                            <label class="col-sm-3" for="quentity">Quantity</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="quentity"
+                                       class="form-control   @error('quentity') is-invalid @enderror" id="quentity"
+                                       placeholder="Quentity" value="{{ old('quentity') }}">
+                                @error('quentity')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div id="error-message"></div>
+
+                        <div class="form-group row">
                             <label class="col-sm-3" for="Item_Auto_Id">Add Serial Number</label>
                             <div class="col-sm-9">
                                 <table class="table" id="dynamicTable">
@@ -133,7 +149,7 @@
                                         <th>Serial Number</th>
                                     </tr>
                                     <tr>
-                                        <td><input type="text" name="addmore[0][name]" placeholder="Enter your Name"
+                                        <td><input type="text" name="addmore[0][name]" placeholder="Enter Name"
                                                    class="form-control"/></td>
                                         <td><input type="text" name="addmore[0][ser]"
                                                    placeholder="Enter your Serial Number"
@@ -148,20 +164,7 @@
                                 </table>
                             </div>
                         </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-3" for="quentity">Quentity</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="quentity"
-                                       class="form-control   @error('quentity') is-invalid @enderror" id="quentity"
-                                       placeholder="Quentity" value="{{ old('quentity') }}">
-                                @error('quentity')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        
 
                         <div class="form-group row">
                             <label class="col-sm-3" for="Voucher_No">Purchase Order No</label>
@@ -309,7 +312,7 @@
                     </div>
 
                     <div class="card-footer">
-                        <button type="submit"
+                        <button type="submit" id="submit-form"
                                 class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">
                             Submit
                         </button>
@@ -330,10 +333,140 @@
     <script src="{{ asset('plugin/jquery/jquery.js') }}"></script>
 
     <script type="text/javascript">
+        
+        // $("#quentity").keyup(function () {
+        //     var qty = 0;
+        //     var userInput = $(this).val(); 
+           
+        //     qty = parseInt(userInput);
+        //     console.log(qty);
+
+        //     //$("#dynamicTable tr").not(":first").remove();
+        //     $("#dynamicTable").find("tr:gt(0)").remove();
+            
+        //     for(var i = 0; i < qty; i++)
+        //     {
+        //         $("#dynamicTable").append('<tr><td><input type="text" name="addmore[' + i + '][name]" placeholder="Enter your Name" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][ser]" placeholder="Enter your Serial Number" class="form-control" /></td><td>' +
+        //         '<button type="submit" class="  remove-tr text-white bg-red-800 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700">Remove </button></td></tr>');
+        //     }
+        // });
+
+    // $(document).ready(function() {
+    //     // add more rows
+    //     $("#quentity").keyup(function() {
+    //         var qty = parseInt($(this).val()) || 0;
+
+    //         // remove existing rows
+    //         $("#dynamicTable").find("tr:gt(0)").remove();
+
+    //         // add new rows
+    //         for (var i = 0; i < qty; i++) {
+    //         $("#dynamicTable").append('<tr><td><input type="text" name="addmore[' + i + '][name]" placeholder="Enter Name" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][ser]" placeholder="Enter Serial Number" class="form-control" /></td><td><button type="submit" class="remove-tr text-white bg-red-800 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700">Remove</button></td></tr>');
+    //         }
+    //     });
+
+    //     // check for empty serial number field
+    //     $(document).on("click", "#submit-form", function() {
+    //         var error = false;
+    //         $("#dynamicTable input[name$='[ser]']").each(function() {
+    //             if (!$(this).val()) {
+    //                 error = true;
+    //                 return false;
+    //             }
+    //         });
+
+    //         if (error) {
+    //         $("#error-message").html("<p>Serial number field can't be empty.</p>");
+    //         } else {
+    //         $("#error-message").html("");
+    //         $("#my-form").submit(); // submit form if no errors
+    //         }
+    //     });
+    // });
+
+        //final not working
+        // $(document).ready(function() {
+        //     $('#myForm').on('submit', function(e) {
+        //         var serialNum = $('input[name="addmore[0][ser]"]').val();
+        //         if (serialNum === '') {
+        //         e.preventDefault();
+        //         alert('Serial Number cannot be empty.');
+        //         } else {
+        //         $('#dynamicTable input[name="addmore[][ser]"]').each(function() {
+        //             if ($(this).val() === '') {
+        //             e.preventDefault();
+        //             alert('Serial Number cannot be empty.');
+        //             return false;
+        //             }
+        //         });
+        //         }
+        //     });
+
+        //     $('#quentity').on('keyup', function() {
+        //         var qty = parseInt($(this).val()) || 0;
+        //         $('#dynamicTable').find('tr:gt(0)').remove();
+        //         for (var i = 0; i < qty; i++) {
+        //             $('#dynamicTable').append('<tr><td><input type="text" name="addmore[' + i + '][name]" placeholder="Enter your Name" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][ser]" placeholder="Enter your Serial Number" class="form-control" /></td><td><button type="submit" class="remove-tr text-white bg-red-800 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700">Remove </button></td></tr>');
+        //         }
+        //     });
+        // });
+
+        $(document).ready(function() {
+            // $('#myForm').on('submit', function(e) {
+            //     var serialNum = $('input[name="addmore[0][ser]"]').val();
+            //     if (serialNum === '') {
+            //         e.preventDefault();
+            //         alert('Serial Number cannot be empty.');
+            //     } else {
+            //         var valid = true;
+            //         $('#dynamicTable input[name="addmore[][ser]"]').each(function() {
+            //             if ($(this).val() === '') {
+            //                 valid = false;
+            //                 return false;
+            //             }
+            //         });
+            //         if (!valid) {
+            //             e.preventDefault();
+            //             alert('Serial Number cannot be empty.');
+            //         }
+            //     }
+            // });
+
+            $('#quentity').on('keyup', function() {
+                var qty = parseInt($(this).val()) || 0;
+                $('#dynamicTable').find('tr:gt(0)').remove();
+                for (var i = 0; i < qty; i++) {
+                    $('#dynamicTable').append('<tr><td><input type="text" name="addmore[' + i + '][name]" placeholder="Enter your Name" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][ser]" placeholder="Enter your Serial Number" class="form-control" /></td><td><button type="submit" class="remove-tr text-white bg-red-800 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700">Remove </button></td></tr>');
+                }
+            });
+
+            // Validate each 'ser' input field on submit
+            $(document).on('submit', '#myForm', function(e) {
+                var qty = parseInt($('#quentity').val()) || 0;
+                var valid = true;
+                for (var j = 0; j < qty; j++) {
+                    var inputField = $('input[name="addmore[' + j + '][ser]"]');
+                    if (inputField.val() === '') {
+                        valid = false;
+                        break;
+                    }
+                }
+
+                if (!valid) {
+                    e.preventDefault();
+                    alert('Serial Number cannot be empty.');
+                    return false;
+                }
+            });
+        });
+    
+        
+        //console.log(qty);
 
         var i = 0;
 
         $("#add").click(function () {
+            //console.log('in');
             ++i;
             $("#dynamicTable").append('<tr><td><input type="text" name="addmore[' + i + '][name]" placeholder="Enter your Name" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][ser]" placeholder="Enter your Serial Number" class="form-control" /></td><td>' +
                 '<button type="submit" class="  remove-tr text-white bg-red-800 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700">Remove </button></td></tr>');
@@ -405,7 +538,7 @@
                     $('#Item_Auto_Id option').remove();
                     $('#Item_Auto_Id').append(new Option('Choose a Item Code', ""));
                     $.each(response, function (key, value) {
-                        $('#Item_Auto_Id').append(new Option(value.Item_Code, value.id));
+                        $('#Item_Auto_Id').append(new Option(value.Item_Code + ' - ' + value.Item_Type, value.id));
                     });
                 }
             });

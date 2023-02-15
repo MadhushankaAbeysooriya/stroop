@@ -67,6 +67,7 @@ class IssueController extends Controller
      */
     public function store(IssueRequest $request)
     {
+        
 
         if ($request->Issued_Type == 'G2') {
             $fcolor = 'blue';
@@ -83,6 +84,8 @@ class IssueController extends Controller
         if ($request->Issued_Type == 'JC') {
             $fcolor = 'yellow';
         }
+
+        
 
         $recive = Receive::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'quentity' => $request->quentity, 'Issu_date' => $request->issue_date, 'Issued_place_id' => $request->issued_place_id,
             'Issued_Type' => $request->Issued_Type, 'issu_sig_unit' => $request->issu_sig_unit, 'Voucher_No' => $request->Voucher_No, 'fcolor' => $fcolor, 'Issu_remarks' => $request->Issu_remarks,
@@ -179,7 +182,7 @@ class IssueController extends Controller
         //dd($issue->Issued_place_id);      
         $issue->update([
             'fwd' => 1,
-        ]);
+        ]);        
 
         $ser_no = SerNo::where('stk_Auto_Id','=',$issue->id)->get();
 
@@ -196,5 +199,33 @@ class IssueController extends Controller
         }
         
         return redirect()->route('issue.approve')->with('message', 'Forward Successfully');
+    }
+
+    public function issue_return(Receive $issue)
+    {  
+        //dd($issue->estb_id);      
+        $issue->update([
+            'rtn' => 1,
+        ]);
+
+        $stock = Stock::where('item_id', $issue->Item_Auto_Id);
+
+        $stock->update(['qty' => $stock->first()->qty + $issue->quentity, 'last_txn_type' => 'in']);
+
+        $ser_no = SerNo::where('stk_Auto_Id','=',$issue->id)->get();
+
+        //dd($ser_no);
+        if(count($ser_no) > 0)
+        {
+            foreach($ser_no as $ser)
+            {
+                $ser->update([
+                    'estb_id' => $issue->estb_id,
+                ]);                
+            }
+
+        }
+        
+        return redirect()->route('temp.index')->with('message', 'Return Successfully');
     }
 }

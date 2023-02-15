@@ -62,6 +62,13 @@ class ReceiveController extends Controller
      */
     public function store(ReceiveRequest $request)
     {
+        //dd(intval($request->quentity)+count($request->addmore));
+
+        if(intval($request->quentity != count($request->addmore)))
+        {
+            return redirect()->route('issue.create')->with('message', 'Insert serial numbers same as quantity');
+        }
+        
         $recive = Receive::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'quentity' => $request->quentity, 'Issu_date' => $request->Issu_date, 'Issu_remarks' => $request->Issu_remarks, 'Issued_place_id' => 1,
             'ent_date' => Carbon::now(), 'ent_user_id' => Auth::user()->id, 'Voucher_No' => $request->Voucher_No, 'rec_from' => $request->rec_from, 'warranty' => $request->warranty,
             'duration' => $request->duration, 'price' => $request->price, 'warranty_act_date' => $request->warranty_act_date, 'Issued_Type' => 0, 'fcolor' => 'red',
