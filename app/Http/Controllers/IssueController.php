@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rank;
 use App\Models\SerNo;
 use App\Models\Stock;
 use App\Models\Store;
@@ -18,6 +19,7 @@ use App\DataTables\IssueDataTable;
 use App\Http\Requests\IssueRequest;
 use Illuminate\Support\Facades\Auth;
 use App\DataTables\IssueApproveIssueDataTable;
+use Illuminate\Http\Request;
 
 class IssueController extends Controller
 {
@@ -87,10 +89,14 @@ class IssueController extends Controller
 
         
 
-        $recive = Receive::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'quentity' => $request->quentity, 'Issu_date' => $request->issue_date, 'Issued_place_id' => $request->issued_place_id,
-            'Issued_Type' => $request->Issued_Type, 'issu_sig_unit' => $request->issu_sig_unit, 'Voucher_No' => $request->Voucher_No, 'fcolor' => $fcolor, 'Issu_remarks' => $request->Issu_remarks,
-            'ent_date' => Carbon::now(), 'ent_user_id' => Auth::user()->id, 'rec_from' => 1, 'warranty' => 0, 'Is_Issued' => 1, 'duration' => 0, 'price' => 0, 'warranty_act_date' => Carbon::now(),
-            'estb_id' => Auth()->user()->estb_id,
+        $recive = Receive::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'quentity' => $request->quentity, 
+            'Issu_date' => $request->issue_date, 'Issued_place_id' => $request->issued_place_id,
+            'Issued_Type' => $request->Issued_Type, 'issu_sig_unit' => $request->issu_sig_unit, 
+            'Voucher_No' => $request->Voucher_No, 'fcolor' => $fcolor, 'Issu_remarks' => $request->Issu_remarks,
+            //'ent_date' => Carbon::now(), 'ent_user_id' => Auth::user()->id, 
+            'rec_from' => 1, 
+            'warranty' => 0, 'Is_Issued' => 1, 'duration' => 0, 'price' => 0, 'warranty_act_date' => Carbon::now(),
+            'estb_id' => Auth()->user()->estb_id, 'job_no' => $request->card_number,
         ]);
 
         $stock = Stock::where('item_id', $request->Item_Auto_Id);
@@ -177,10 +183,26 @@ class IssueController extends Controller
         return $dataTable->render('issue.fwd');
     }
 
-    public function issue_forward(Receive $issue)
+    public function issue_forward_view(Receive $issue)
+    {
+        //dd($issue->id);
+        $ser_no = SerNo::where('stk_Auto_Id',$issue->id)->get();
+        $rank = Rank::all();
+        $issuePlace = Establishment::all();   
+        return view('issue.fwd_view', compact('issue','ser_no','rank','issuePlace'));
+    }
+
+    public function issue_forward(Receive $issue, Request $request)
     {  
-        //dd($issue->Issued_place_id);      
+        //dd($request);      
         $issue->update([
+            'issued_off_no' => $request->issued_off_no,
+            'issued_off_rank' => $request->issued_off_rank,
+            'issued_off_name' => $request->issued_off_name,
+            'issued_off_regiment' => $request->issued_off_regiment,
+            'issued_off_remarks' => $request->issued_off_remarks,
+            'ent_date' => Carbon::now(), 
+            'ent_user_id' => Auth::user()->id,
             'fwd' => 1,
         ]);        
 

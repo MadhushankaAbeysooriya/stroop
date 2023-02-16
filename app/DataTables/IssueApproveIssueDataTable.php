@@ -28,7 +28,7 @@ class IssueApproveIssueDataTable extends DataTable
             ->setRowId('id')
             ->addIndexColumn()
             ->addColumn('action', function ($item) {
-                return '<div class="w-80"></div><a href="' . route('issue.forward', $item->id) . '" 
+                return '<div class="w-80"></div><a href="' . route('issue.forward_view', $item->id) . '" 
                 class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="bottom" 
                 title="Forward"><i class="fa fa-forward"></i></a>
                 </div>';

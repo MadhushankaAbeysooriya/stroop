@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\SerNo;
 use App\Models\SigUnit;
+use App\Models\Purchase;
 use App\Models\Establishment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,4 +30,14 @@ class Receive extends Model
     {
         return $this->hasOne(SigUnit::class, 'id', 'issu_sig_unit');
     }
+
+    public function purchase()
+    {
+        return $this->hasOne(Purchase::class, 'id', 'Voucher_No');
+    }
+
+    // public function serial_numbers()
+    // {
+    //     return $this->belongsToMany(SerNo::class,'m_seri_no','stk_Auto_Id','id');
+    // }
 }

@@ -94,12 +94,16 @@
                         <div class="form-group row">
                             <label class="col-sm-3" for="title_no">Title Name</label>
                             <div class="col-sm-9">
-                                <select required name="title_no" id="title_no"
+                                {{-- <select required name="title_no" id="title_no"
                                         class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     @foreach($titles as $item)
                                         <option
                                             @selected($item->title_no == old('title_no')) value="{{$item->title_no}}">{{$item->title_name}}</option>
                                     @endforeach
+                                </select> --}}
+                                <select required name="title_no" id="title_no"
+                                    class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option></option>
                                 </select>
                                 @error('title_no')
                                 <span class="invalid-feedback" role="alert">
@@ -321,16 +325,19 @@
             </div>
         </div>
     </div>
-@endsection
+@endsection    
+        
 
 @section('third_party_stylesheets')
     <link rel="stylesheet" href="{{ asset('plugin/flowbite/flowbite.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('plugin/select2/css/select2.css') }}">
 @stop
 
 @section('third_party_scripts')
     <script src="{{ asset('plugin/flowbite/flowbite.js') }}"></script>
     <script src="{{ asset('plugin/flowbite/datepicker.js') }}"></script>
     <script src="{{ asset('plugin/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('plugin/select2/js/select2.min.js') }}" defer></script>
 
     <script type="text/javascript">
         
@@ -545,4 +552,34 @@
         })
 
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#title_no').select2({
+                placeholder: 'Search for a title...',
+                minimumInputLength: 2,
+                ajax: {
+                    url: '{{ route('titles.search') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            q: params.term
+                        };
+                    },
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(item) {
+                                return {
+                                    id: item.title_no,
+                                    text: item.title_name
+                                };
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            });
+        });
+        </script>
 @stop
