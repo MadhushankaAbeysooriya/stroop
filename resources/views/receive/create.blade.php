@@ -102,8 +102,11 @@
                                     @endforeach
                                 </select> --}}
                                 <select required name="title_no" id="title_no"
-                                    class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option></option>
+                                        class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    @foreach($titles as $item)
+                                        <option
+                                            @selected($item->title_no == old('title_no')) value="{{$item->title_no}}">{{$item->title_name}}</option>
+                                    @endforeach
                                 </select>
                                 @error('title_no')
                                 <span class="invalid-feedback" role="alert">
@@ -341,105 +344,9 @@
 
     <script type="text/javascript">
 
-        // $("#quentity").keyup(function () {
-        //     var qty = 0;
-        //     var userInput = $(this).val();
+        $(document).ready(function () {
 
-        //     qty = parseInt(userInput);
-        //     console.log(qty);
-
-        //     //$("#dynamicTable tr").not(":first").remove();
-        //     $("#dynamicTable").find("tr:gt(0)").remove();
-
-        //     for(var i = 0; i < qty; i++)
-        //     {
-        //         $("#dynamicTable").append('<tr><td><input type="text" name="addmore[' + i + '][name]" placeholder="Enter your Name" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][ser]" placeholder="Enter your Serial Number" class="form-control" /></td><td>' +
-        //         '<button type="submit" class="  remove-tr text-white bg-red-800 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700">Remove </button></td></tr>');
-        //     }
-        // });
-
-    // $(document).ready(function() {
-    //     // add more rows
-    //     $("#quentity").keyup(function() {
-    //         var qty = parseInt($(this).val()) || 0;
-
-    //         // remove existing rows
-    //         $("#dynamicTable").find("tr:gt(0)").remove();
-
-    //         // add new rows
-    //         for (var i = 0; i < qty; i++) {
-    //         $("#dynamicTable").append('<tr><td><input type="text" name="addmore[' + i + '][name]" placeholder="Enter Name" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][ser]" placeholder="Enter Serial Number" class="form-control" /></td><td><button type="submit" class="remove-tr text-white bg-red-800 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700">Remove</button></td></tr>');
-    //         }
-    //     });
-
-    //     // check for empty serial number field
-    //     $(document).on("click", "#submit-form", function() {
-    //         var error = false;
-    //         $("#dynamicTable input[name$='[ser]']").each(function() {
-    //             if (!$(this).val()) {
-    //                 error = true;
-    //                 return false;
-    //             }
-    //         });
-
-    //         if (error) {
-    //         $("#error-message").html("<p>Serial number field can't be empty.</p>");
-    //         } else {
-    //         $("#error-message").html("");
-    //         $("#my-form").submit(); // submit form if no errors
-    //         }
-    //     });
-    // });
-
-        //final not working
-        // $(document).ready(function() {
-        //     $('#myForm').on('submit', function(e) {
-        //         var serialNum = $('input[name="addmore[0][ser]"]').val();
-        //         if (serialNum === '') {
-        //         e.preventDefault();
-        //         alert('Serial Number cannot be empty.');
-        //         } else {
-        //         $('#dynamicTable input[name="addmore[][ser]"]').each(function() {
-        //             if ($(this).val() === '') {
-        //             e.preventDefault();
-        //             alert('Serial Number cannot be empty.');
-        //             return false;
-        //             }
-        //         });
-        //         }
-        //     });
-
-        //     $('#quentity').on('keyup', function() {
-        //         var qty = parseInt($(this).val()) || 0;
-        //         $('#dynamicTable').find('tr:gt(0)').remove();
-        //         for (var i = 0; i < qty; i++) {
-        //             $('#dynamicTable').append('<tr><td><input type="text" name="addmore[' + i + '][name]" placeholder="Enter your Name" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][ser]" placeholder="Enter your Serial Number" class="form-control" /></td><td><button type="submit" class="remove-tr text-white bg-red-800 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700">Remove </button></td></tr>');
-        //         }
-        //     });
-        // });
-
-        $(document).ready(function() {
-            // $('#myForm').on('submit', function(e) {
-            //     var serialNum = $('input[name="addmore[0][ser]"]').val();
-            //     if (serialNum === '') {
-            //         e.preventDefault();
-            //         alert('Serial Number cannot be empty.');
-            //     } else {
-            //         var valid = true;
-            //         $('#dynamicTable input[name="addmore[][ser]"]').each(function() {
-            //             if ($(this).val() === '') {
-            //                 valid = false;
-            //                 return false;
-            //             }
-            //         });
-            //         if (!valid) {
-            //             e.preventDefault();
-            //             alert('Serial Number cannot be empty.');
-            //         }
-            //     }
-            // });
-
-            $('#quentity').on('keyup', function() {
+            $('#quentity').on('keyup', function () {
                 var qty = parseInt($(this).val()) || 0;
                 $('#dynamicTable').find('tr:gt(0)').remove();
                 for (var i = 0; i < qty; i++) {
@@ -448,7 +355,7 @@
             });
 
             // Validate each 'ser' input field on submit
-            $(document).on('submit', '#myForm', function(e) {
+            $(document).on('submit', '#myForm', function (e) {
                 var qty = parseInt($('#quentity').val()) || 0;
                 var valid = true;
                 for (var j = 0; j < qty; j++) {
@@ -467,9 +374,6 @@
             });
         });
 
-
-        //console.log(qty);
-
         var i = 0;
 
         $("#add").click(function () {
@@ -486,6 +390,10 @@
     </script>
 
     <script>
+
+        $(document).ready(function () {
+            $("#title_no").select2();
+        });
 
         $('#store_id').change(function () {
             var store_id = $('#store_id').val();
@@ -552,34 +460,4 @@
         })
 
     </script>
-
-    <script>
-        $(document).ready(function() {
-            $('#title_no').select2({
-                placeholder: 'Search for a title...',
-                minimumInputLength: 2,
-                ajax: {
-                    url: '{{ route('titles.search') }}',
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            q: params.term
-                        };
-                    },
-                    processResults: function(data) {
-                        return {
-                            results: $.map(data, function(item) {
-                                return {
-                                    id: item.title_no,
-                                    text: item.title_name
-                                };
-                            })
-                        };
-                    },
-                    cache: true
-                }
-            });
-        });
-        </script>
 @stop
