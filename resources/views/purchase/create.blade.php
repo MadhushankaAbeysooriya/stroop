@@ -160,8 +160,19 @@
 
 @section('third_party_stylesheets')
     <link rel="stylesheet" href="{{ asset('plugin/flowbite/flowbite.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('plugin/select2/css/select2.css') }}">
 @stop
 
 @section('third_party_scripts')
     <script src="{{ asset('plugin/flowbite/flowbite.js') }}"></script>
+    <script src="{{ asset('plugin/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('plugin/select2/js/select2.min.js') }}" defer></script>
+    <script>
+
+        $(document).ready(function () {
+            $("#sup_id").select2();
+            $("#rcvd_to").select2();
+            $("#vote_id").select2();
+        });
+    </script>
 @stop

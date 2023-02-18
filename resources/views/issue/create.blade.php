@@ -163,7 +163,6 @@
                             </div>
                         </div>
 
-                        
 
                         <div class="form-group row">
                             <label class="col-sm-3" for="Voucher_No">Purchase Order No</label>
@@ -252,7 +251,8 @@
                             <label class="col-sm-3" for="card_number">Job Card Number</label>
                             <div class="col-sm-9">
                                 <input type="text" name="card_number"
-                                       class="form-control   @error('card_number') is-invalid @enderror" id="card_number"
+                                       class="form-control   @error('card_number') is-invalid @enderror"
+                                       id="card_number"
                                        placeholder="Job Card Number" value="{{ old('card_number') }}">
                                 @error('card_number')
                                 <span class="invalid-feedback" role="alert">
@@ -311,64 +311,30 @@
 
 @section('third_party_stylesheets')
     <link rel="stylesheet" href="{{ asset('plugin/flowbite/flowbite.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('plugin/select2/css/select2.css') }}">
 @stop
 
 @section('third_party_scripts')
     <script src="{{ asset('plugin/flowbite/flowbite.js') }}"></script>
     <script src="{{ asset('plugin/flowbite/datepicker.js') }}"></script>
     <script src="{{ asset('plugin/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('plugin/select2/js/select2.min.js') }}" defer></script>
 
     <script type="text/javascript">
 
-        $(document).ready(function() {
-            $('#Issued_Type').on('change', function() {
+        $(document).ready(function () {
+            $('#Issued_Type').on('change', function () {
                 if ($(this).val() == 'JC') {
-                $('#job_card').show();
+                    $('#job_card').show();
                 } else {
-                $('#job_card').hide();
+                    $('#job_card').hide();
                 }
             });
         });
 
-        // $("#quentity").keyup(function () {
-        //     var qty = 0;
-        //     var userInput = $(this).val(); 
-           
-        //     qty = parseInt(userInput);
-        //     console.log(qty);
+        $(document).ready(function () {
 
-        //     //$("#dynamicTable tr").not(":first").remove();
-        //     $("#dynamicTable").find("tr:gt(1)").remove();
-            
-        //     for(var i = 0; i < qty-1; i++)
-        //     {
-        //         $("#dynamicTable").append('<tr><td><input type="text" name="addmore[' + i + '][name]" placeholder="Enter your Name" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][ser]" placeholder="Enter your Serial Number" class="form-control" /></td><td>' +
-        //         '<button type="submit" class="  remove-tr text-white bg-red-800 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700">Remove </button></td></tr>');
-        //     }
-        // });
-
-        $(document).ready(function() {
-            // $('#myForm').on('submit', function(e) {
-            //     var serialNum = $('input[name="addmore[0][ser]"]').val();
-            //     if (serialNum === '') {
-            //         e.preventDefault();
-            //         alert('Serial Number cannot be empty.');
-            //     } else {
-            //         var valid = true;
-            //         $('#dynamicTable input[name="addmore[][ser]"]').each(function() {
-            //             if ($(this).val() === '') {
-            //                 valid = false;
-            //                 return false;
-            //             }
-            //         });
-            //         if (!valid) {
-            //             e.preventDefault();
-            //             alert('Serial Number cannot be empty.');
-            //         }
-            //     }
-            // });
-
-            $('#quentity').on('keyup', function() {
+            $('#quentity').on('keyup', function () {
                 var qty = parseInt($(this).val()) || 0;
                 $('#dynamicTable').find('tr:gt(0)').remove();
                 for (var i = 0; i < qty; i++) {
@@ -377,7 +343,7 @@
             });
 
             // Validate each 'ser' input field on submit
-            $(document).on('submit', '#myForm', function(e) {
+            $(document).on('submit', '#myForm', function (e) {
                 var qty = parseInt($('#quentity').val()) || 0;
                 var valid = true;
                 for (var j = 0; j < qty; j++) {
@@ -408,9 +374,13 @@
             $(this).parents('tr').remove();
         });
 
-    </script>
-
-    <script>
+        $(document).ready(function () {
+            $("#title_no").select2();
+            $("#Item_Auto_Id").select2();
+            $("#Voucher_No").select2();
+            $("#issued_place_id").select2();
+            $("#issu_sig_unit").select2();
+        });
 
         $('#store_id').change(function () {
             var store_id = $('#store_id').val();

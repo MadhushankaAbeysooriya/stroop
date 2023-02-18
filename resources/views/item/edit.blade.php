@@ -256,9 +256,56 @@
 
 @section('third_party_stylesheets')
     <link rel="stylesheet" href="{{ asset('plugin/flowbite/flowbite.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('plugin/select2/css/select2.css') }}">
 @stop
 
 @section('third_party_scripts')
     <script src="{{ asset('plugin/flowbite/flowbite.js') }}"></script>
-@stop
+    <script src="{{ asset('plugin/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('plugin/select2/js/select2.min.js') }}" defer></script>
+    <script>
 
+        $(document).ready(function () {
+            $("#title_no").select2();
+        });
+
+        $('#store_id').change(function () {
+            var store_id = $('#store_id').val();
+
+            $.ajax({
+                url: '{{ route('ajax.getTitle') }}',
+                type: 'get',
+                data: {
+                    'store_id': store_id,
+                    '_token': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    $('#title_no option').remove();
+                    $.each(response, function (key, value) {
+                        $('#title_no').append(new Option(value.title_name, value.title_no));
+                    });
+                }
+            });
+        })
+
+        $('#store_id').ready(function () {
+            var store_id = $('#store_id').val();
+
+            $.ajax({
+                url: '{{ route('ajax.getTitle') }}',
+                type: 'get',
+                data: {
+                    'store_id': store_id,
+                    '_token': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    $('#title_no option').remove();
+                    $.each(response, function (key, value) {
+                        $('#title_no').append(new Option(value.title_name, value.title_no));
+                    });
+                }
+            });
+        })
+
+    </script>
+@stop
