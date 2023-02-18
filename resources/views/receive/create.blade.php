@@ -387,12 +387,10 @@
             $(this).parents('tr').remove();
         });
 
-    </script>
-
-    <script>
-
         $(document).ready(function () {
             $("#title_no").select2();
+            $("#Item_Auto_Id").select2();
+            $("#Voucher_No").select2();
         });
 
         $('#store_id').change(function () {
