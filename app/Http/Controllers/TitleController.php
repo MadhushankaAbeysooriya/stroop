@@ -44,6 +44,12 @@ class TitleController extends Controller
         return view('title.create', compact('stores'));
     }
 
+    public function search(Request $request)
+    {
+        $title = Title::where('title_name','LIKE',"%{$request->q}%")->get();
+        return $title;
+    }
+
     /**
      * Store a newly created resource in storage.
      *

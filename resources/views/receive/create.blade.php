@@ -168,7 +168,7 @@
                                 </table>
                             </div>
                         </div>
-                        
+
 
                         <div class="form-group row">
                             <label class="col-sm-3" for="Voucher_No">Purchase Order No</label>
@@ -325,8 +325,8 @@
             </div>
         </div>
     </div>
-@endsection    
-        
+@endsection
+
 
 @section('third_party_stylesheets')
     <link rel="stylesheet" href="{{ asset('plugin/flowbite/flowbite.min.css') }}"/>
@@ -340,17 +340,17 @@
     <script src="{{ asset('plugin/select2/js/select2.min.js') }}" defer></script>
 
     <script type="text/javascript">
-        
+
         // $("#quentity").keyup(function () {
         //     var qty = 0;
-        //     var userInput = $(this).val(); 
-           
+        //     var userInput = $(this).val();
+
         //     qty = parseInt(userInput);
         //     console.log(qty);
 
         //     //$("#dynamicTable tr").not(":first").remove();
         //     $("#dynamicTable").find("tr:gt(0)").remove();
-            
+
         //     for(var i = 0; i < qty; i++)
         //     {
         //         $("#dynamicTable").append('<tr><td><input type="text" name="addmore[' + i + '][name]" placeholder="Enter your Name" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][ser]" placeholder="Enter your Serial Number" class="form-control" /></td><td>' +
@@ -466,8 +466,8 @@
                 }
             });
         });
-    
-        
+
+
         //console.log(qty);
 
         var i = 0;

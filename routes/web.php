@@ -46,7 +46,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('issue/forward_view/{issue}',[IssueController::class,'issue_forward_view'])->name('issue.forward_view');
     Route::put('issue/forward/{issue}',[IssueController::class,'issue_forward'])->name('issue.forward');
     Route::get('issue/return/{issue}',[IssueController::class,'issue_return'])->name('issue.return');
-    Route::resource('issue', IssueController::class);        
+    Route::resource('issue', IssueController::class);
     Route::resource('stock', StockController::class);
     Route::resource('temp', TempController::class);
     Route::resource('item', ItemController::class);
@@ -62,4 +62,4 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::get('/ajax/getTitle', [ajaxController::class, 'getTitle'])->name('ajax.getTitle');
 Route::get('/ajax/getItemCode', [ajaxController::class, 'getItemCode'])->name('ajax.getItemCode');
-//Route::get('/titles/search', [TitleController::class, 'search'])->name('titles.search');
+Route::get('/titles/search', [TitleController::class, 'search'])->name('titles.search');
