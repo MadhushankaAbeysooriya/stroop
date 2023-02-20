@@ -75,8 +75,8 @@
                         <div class="form-group row">
                             <label class="col-sm-3">Issue Type</label>
                             <div class="col-sm-9">
-                                
-                                @switch ($issue->Issued_Type) 
+
+                                @switch ($issue->Issued_Type)
                                     @case ('Q5')
                                         <h5><span class="badge badge-primary">Q5</span></h5>
                                         @break
@@ -93,12 +93,12 @@
                                         <h5><span class="badge badge-danger">error</span></h5>
                                         @break
                                 @endswitch
-                                
+
                             </div>
                         </div>
 
                         @if ($issue->job_no != null)
-                            <div class="form-group row" >
+                            <div class="form-group row">
                                 <label class="col-sm-3">Job Number</label>
                                 <div class="col-sm-9">
                                     <label>{{ $issue->job_no }}</label>
@@ -117,7 +117,7 @@
                             <label class="col-sm-3">Serial Numbers</label>
                             <div class="col-sm-9">
                                 @foreach ($ser_no as $item)
-                                    <label>{{ $loop->iteration }}.{{ $item->Seri_No }}</label><br>                                    
+                                    <label>{{ $loop->iteration }}.{{ $item->Seri_No }}</label><br>
                                 @endforeach
                             </div>
                         </div>
@@ -133,7 +133,8 @@
                             <label class="col-sm-3" for="issued_off_no">Reg No</label>
                             <div class="col-sm-5">
                                 <input type="text" name="issued_off_no"
-                                       class="form-control   @error('issued_off_no') is-invalid @enderror" id="issued_off_no"
+                                       class="form-control   @error('issued_off_no') is-invalid @enderror"
+                                       id="issued_off_no"
                                        placeholder="Reg No" value="{{ old('issued_off_no') }}">
                                 @error('issued_off_no')
                                 <span class="invalid-feedback" role="alert">
@@ -147,7 +148,7 @@
                             <label class="col-sm-3" for="issued_off_rank">Rank</label>
                             <div class="col-sm-5">
                                 <select required name="issued_off_rank" id="issued_off_rank"
-                                    class="form-control   @error('issued_off_rank') is-invalid @enderror">
+                                        class="form-control   @error('issued_off_rank') is-invalid @enderror">
                                     @foreach($rank as $item)
                                         <option
                                             @selected($item->rank_id == old('rank_id')) value="{{$item->rank_id}}">{{$item->rank_code}}</option>
@@ -165,7 +166,8 @@
                             <label class="col-sm-3" for="issued_off_name">Name</label>
                             <div class="col-sm-5">
                                 <input type="text" name="issued_off_name"
-                                       class="form-control   @error('issued_off_name') is-invalid @enderror" id="issued_off_name"
+                                       class="form-control   @error('issued_off_name') is-invalid @enderror"
+                                       id="issued_off_name"
                                        placeholder="Name" value="{{ old('issued_off_name') }}">
                                 @error('issued_off_name')
                                 <span class="invalid-feedback" role="alert">
@@ -179,7 +181,7 @@
                             <label class="col-sm-3" for="issued_off_regiment">Establishment</label>
                             <div class="col-sm-5">
                                 <select required name="issued_off_regiment" id="issued_off_regiment"
-                                    class="form-control   @error('issued_off_regiment') is-invalid @enderror">
+                                        class="form-control   @error('issued_off_regiment') is-invalid @enderror">
                                     @foreach($issuePlace as $item)
                                         <option
                                             @selected($item->id == old('id')) value="{{$item->id}}">{{$item->place_discription}}</option>
@@ -208,7 +210,6 @@
                             </div>
                         </div>
 
-                        
 
                     </div>
 
@@ -227,8 +228,19 @@
 
 @section('third_party_stylesheets')
     <link rel="stylesheet" href="{{ asset('plugin/flowbite/flowbite.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('plugin/select2/css/select2.css') }}">
 @stop
 
 @section('third_party_scripts')
     <script src="{{ asset('plugin/flowbite/flowbite.js') }}"></script>
+    <script src="{{ asset('plugin/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('plugin/select2/js/select2.min.js') }}" defer></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#issued_off_rank").select2();
+            $("#issued_off_regiment").select2();
+        });
+    </script>
+
 @stop
