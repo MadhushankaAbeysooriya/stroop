@@ -52,10 +52,10 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://stroop.test/'),
+    'url' => env('APP_URL', 'http://localhost/army/stroop-stock-control/'),
 
-    'asset_url' => env('ASSET_URL', 'http://stroop.test/'),
-    'mix_url' => env('MIX_URL', 'http://stroop.test/'),
+    'asset_url' => env('ASSET_URL', 'http://localhost/army/stroop-stock-control/public/'),
+    'mix_url' => env('MIX_URL', 'http://localhost/army/stroop-stock-control/public/'),
 
 
     /*
