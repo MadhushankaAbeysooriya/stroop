@@ -99,6 +99,15 @@
                         <p>All Items</p>
                     </a>
                 </li>
+                
+                <li class="nav-item">
+                    <a href="{{ route('item.add_unit_item_view') }}"
+                       class="nav-link   {{  request()->is('item/add_unit_item_view*','item/add_unit_item*') ? 'active' : '' }} ">
+                        <i
+                            class="far fa-circle nav-icon text-warning"></i>
+                        <p>Add Unit Items</p>
+                    </a>
+                </li>
                 @can('title-list')
                     <li class="nav-item">
                         <a href="{{ route('title.index') }}"

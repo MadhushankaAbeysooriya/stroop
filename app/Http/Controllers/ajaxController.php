@@ -26,4 +26,21 @@ class ajaxController extends Controller
         }
     }
 
+    public function getItemSerial($id)
+    {
+        $item = Item::findOrFail($id);
+        return response()->json([
+            'is_serial' => $item->is_serial,
+            'is_unit' => $item->is_unit
+        ]);
+    }
+
+    // public function getUnit($id)
+    // {
+    //     $item = Item::findOrFail($id);
+    //     return response()->json([
+    //         'is_unit' => $item->is_unit
+    //     ]);
+    // }
+
 }
