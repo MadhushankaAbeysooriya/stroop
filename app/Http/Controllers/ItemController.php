@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\ItemsDataTable;
-use App\Http\Requests\ItemRequest;
-use App\Models\Equipment;
-use App\Models\ICTCategory;
 use App\Models\Item;
-use App\Models\MesureUnit;
+use App\Models\Vote;
 use App\Models\Stock;
 use App\Models\Store;
 use App\Models\Title;
-use App\Models\Vote;
+use App\Models\Equipment;
+use App\Models\MesureUnit;
+use App\Models\ICTCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use App\DataTables\ItemsDataTable;
+use App\Http\Requests\ItemRequest;
+use Illuminate\Support\Facades\Auth;
+use App\DataTables\AddUnittoItemDataTables;
 
 class ItemController extends Controller
 {
@@ -169,6 +170,22 @@ class ItemController extends Controller
     function GetNextItemCode($store_id, $title_no)
     {
         return Item::where('store_id', $store_id)->where('title_no', $title_no)->latest()->first();
+    }
+
+    public function add_unit_item_view(AddUnittoItemDataTables $dataTable)
+    {
+        return $dataTable->render('item.add_unit');
+    }
+
+    public function add_unit_item(Item $item)
+    {          
+        return view('item.add_unit_item', compact('item'));      
+    }
+    
+    public function add_unit(Item $item, Request $request)
+    { 
+        dd($request);         
+        return view('item.add_unit_item', compact('item'));      
     }
 
 }

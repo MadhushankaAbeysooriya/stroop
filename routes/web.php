@@ -49,6 +49,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('issue', IssueController::class);
     Route::resource('stock', StockController::class);
     Route::resource('temp', TempController::class);
+    Route::get('item/add_unit_item_view',[ItemController::class,'add_unit_item_view'])->name('item.add_unit_item_view');
+    Route::get('item/add_unit_item/{item}',[ItemController::class,'add_unit_item'])->name('item.add_unit_item');
+    Route::post('item/add_unit/{item}',[ItemController::class,'add_unit'])->name('item.add_unit');
     Route::resource('item', ItemController::class);
     Route::resource('purchase', PurchaseController::class);
     Route::resource('vote', VoteController::class);
@@ -63,3 +66,4 @@ Route::group(['middleware' => ['auth']], function () {
 Route::get('/ajax/getTitle', [ajaxController::class, 'getTitle'])->name('ajax.getTitle');
 Route::get('/ajax/getItemCode', [ajaxController::class, 'getItemCode'])->name('ajax.getItemCode');
 Route::get('/titles/search', [TitleController::class, 'search'])->name('titles.search');
+Route::get('/get-item-serial/{itemCode}', [ajaxController::class, 'getItemSerial'])->name('ajax.getItemSerial');

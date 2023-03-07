@@ -103,7 +103,7 @@ class IssueController extends Controller
 
         $stock->update(['item_id' => $request->Item_Auto_Id, 'qty' => $stock->first()->qty - $request->quentity, 'last_txn_type' => 'out']);
 
-        if (isset($request->addmore)) {
+        if (!empty(request('addmore')[0]['ser'])) {
             foreach ($request->addmore as $ser) {
                 //dd($ser['ser']); 
                 $ser_no = SerNo::where('Seri_No','=',$ser['ser']);
