@@ -375,7 +375,33 @@
         });
 
         $(document).ready(function () {
-            $("#title_no").select2();
+
+            $('#title_no').select2().on('change', function (item) {
+                var store_id = $('#store_id').val();
+                var ict = $('#ict').val();
+                var category_type = $('#category_type').val();
+                var title_no = $('#title_no').val();
+
+                $.ajax({
+                    url: '{{ route('ajax.getItemCode') }}',
+                    type: 'get',
+                    data: {
+                        'store_id': store_id,
+                        'ict': ict,
+                        'category_type': category_type,
+                        'title_no': title_no,
+                        '_token': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        $('#Item_Auto_Id option').remove();
+                        $('#Item_Auto_Id').append(new Option('Choose a Item Code', ""));
+                        $.each(response, function (key, value) {
+                            $('#Item_Auto_Id').append(new Option(value.Item_Code + ' - ' + value.Item_Type, value.id));
+                        });
+                    }
+                });
+            });
+
             $("#Item_Auto_Id").select2();
             $("#Voucher_No").select2();
             $("#issued_place_id").select2();
@@ -425,6 +451,7 @@
             var ict = $('#ict').val();
             var category_type = $('#category_type').val();
             var title_no = $('#title_no').val();
+
 
             $.ajax({
                 url: '{{ route('ajax.getItemCode') }}',
