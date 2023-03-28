@@ -24,9 +24,9 @@
 
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Add Units</div>
+                    <div class="card-title">Add Units - {{ $item->Item_Type }}</div>
                     <div class="card-tools">
-                        <a href="{{ URL::previous() }}" class="btn btn-sm btn-dark">Back</a>
+                        <a href="{{ route('item.add_unit') }}" class="btn btn-sm btn-dark">Back</a>
                     </div>
                 </div>
 
@@ -38,12 +38,12 @@
                     <div class="card-body">                       
 
                         <div class="form-group row">
-                            <label class="col-sm-3" for="unit">Sub Units</label>
+                            <label class="col-sm-3" for="name">Sub Units</label>
                             <div class="col-sm-8">
-                                <input type="text" name="unit"
-                                       class="form-control   @error('unit') is-invalid @enderror" id="unit"
-                                       placeholder="Unit Name" value="{{ old('unit') }}">
-                                @error('unit')
+                                <input type="text" name="name"
+                                       class="form-control   @error('name') is-invalid @enderror" id="name"
+                                       placeholder="Unit Name" value="{{ old('name') }}">
+                                @error('name')
                                 <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -59,6 +59,26 @@
                         </button>
                     </div>
                 </form>
+
+                @if(!empty($item_units))
+                    <div class="card">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Name</th>
+                                <th>Action</th>
+                            </tr>
+                            @foreach ($item_units as $item_unit)
+                                <tr>
+                                    <td>{{ $item_unit->name }}</td>
+                                    <td><a href={{ route('item.add_unit_remove', ['id'=>$item_unit->id, 'item' => $item->id]) }} class="btn btn-xs btn-danger" 
+                                        data-toggle="tooltip" data-placement="bottom" title="Item Details">
+                                        <i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>                            
+                            @endforeach
+                        </table>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

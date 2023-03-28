@@ -129,21 +129,7 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-3" for="quentity">Quantity</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="quentity"
-                                       class="form-control   @error('quentity') is-invalid @enderror" id="quentity"
-                                       placeholder="Quentity" value="{{ old('quentity') }}">
-                                @error('quentity')
-                                <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                        </div>                        
 
                         <div class="form-group row" id="">
                             <label class="col-sm-3" for="quentity">Quantity</label>

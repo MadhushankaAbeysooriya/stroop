@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('temp', TempController::class);
     Route::get('item/add_unit_item_view',[ItemController::class,'add_unit_item_view'])->name('item.add_unit_item_view');
     Route::get('item/add_unit_item/{item}',[ItemController::class,'add_unit_item'])->name('item.add_unit_item');
+    Route::get('item/add_unit_remove/{item}/{id}',[ItemController::class,'add_unit_remove'])->name('item.add_unit_remove');
     Route::post('item/add_unit/{item}',[ItemController::class,'add_unit'])->name('item.add_unit');
     Route::resource('item', ItemController::class);
     Route::resource('purchase', PurchaseController::class);

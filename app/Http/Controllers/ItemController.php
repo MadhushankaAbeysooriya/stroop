@@ -7,6 +7,7 @@ use App\Models\Vote;
 use App\Models\Stock;
 use App\Models\Store;
 use App\Models\Title;
+use App\Models\ItemUnit;
 use App\Models\Equipment;
 use App\Models\MesureUnit;
 use App\Models\ICTCategory;
@@ -178,14 +179,30 @@ class ItemController extends Controller
     }
 
     public function add_unit_item(Item $item)
-    {          
-        return view('item.add_unit_item', compact('item'));      
+    {
+        //dd($item->id);
+        $item_units = ItemUnit::where('item_id',$item->id)->get();
+        //dd($item_units);         
+        return view('item.add_unit_item', compact('item','item_units'));      
     }
     
     public function add_unit(Item $item, Request $request)
     { 
-        dd($request);         
-        return view('item.add_unit_item', compact('item'));      
+        //dd($request);
+        ItemUnit::create([
+            'item_id'=> $item->id,
+            'name'=>$request->name
+        ]);         
+        return redirect()->route('item.add_unit_item', $item->id)
+            ->with('message', 'Item Unit added successfully.');      
+    }
+
+    public function add_unit_remove(Item $item, $id)
+    { 
+        //dd($id);
+        ItemUnit::where('id',$id)->delete();
+        return redirect()->route('item.add_unit_item', $item->id)
+            ->with('message', 'Item Unit Deleted');      
     }
 
 }
