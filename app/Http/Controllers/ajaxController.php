@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use is;
 use App\Models\Item;
-use App\Models\Supplier;
 use App\Models\Title;
+use App\Models\ItemUnit;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,6 +34,17 @@ class ajaxController extends Controller
         return response()->json([
             'is_serial' => $item->is_serial,
             'is_unit' => $item->is_unit
+        ]);
+    }
+
+    public function getItemUnits($id)
+    {
+        //dd($id);
+        $itemunits = ItemUnit::where('item_id',$id)->get();
+        //dd(count($itemunits));
+
+        return response()->json([
+            'itemunits' => $itemunits
         ]);
     }
 

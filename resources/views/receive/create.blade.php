@@ -362,11 +362,35 @@
                         $('#quentity').on('keyup', function () {
                             console.log('in quentity'+isSerial);
                             var qty = parseInt($(this).val()) || 0;
-                            if (isSerial == 1) {                                
+                            if (isSerial == 1 && isUnit == 0) {
+                                console.log('is serial 1 and is unit 0');
+                                console.log(itemCode);                                
                                 $('#dynamicTable').find('tr:gt(1)').remove();
                                 for (var i = 1; i < qty; i++) {
                                     $('#dynamicTable').append('<tr><td><input type="text" name="addmore[' + i + '][name]" placeholder="Enter your Name" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][ser]" placeholder="Enter your Serial Number" class="form-control" /></td><td><button type="submit" class="remove-tr text-white bg-red-800 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700">Remove </button></td></tr>');
                                 }
+                            }
+
+                            if (isSerial == 1 && isUnit == 1) {
+                                console.log('is serial 1 and is unit 1');
+                                console.log(itemCode);
+                                var itemUnits = '';
+                                itemUnits.length = 0;
+
+                                
+                                                                
+                                getItemUnits(itemCode, function(itemUnits) {
+                                    console.log('in getItemUnits');
+                                    console.log(itemUnits);
+                                    console.log(itemUnits.length);
+                                    if(itemUnits.length > 0){                                        
+                                        createDynamicTable(itemUnits, qty);
+                                        //break;
+                                    }else{
+                                        alert('Please add Item Units.');
+                                        //break;
+                                    }
+                                });
                             }
                         });
 
@@ -409,6 +433,38 @@
                             callback(isSerial,isUnit);
                         }
                     });
+                }
+
+                function getItemUnits(itemCode, callback) {
+                    $.ajax({
+                        url: '{{ route('ajax.getItemUnits', ':id') }}'.replace(':id', itemCode),
+                        type: 'GET',
+                        dataType: 'json', 
+                        success: function(data) {
+                            // access the 'itemunits' field in the response
+                            var itemUnits = data.itemunits;
+                            callback(itemUnits);
+                        }
+                    });
+                }
+
+                function createDynamicTable(itemUnits, qty) {
+                    // var table = $('<table></table>');
+                    // var header = $('<tr><th>Item Unit</th><th>Quantity</th></tr>');
+                    // table.append(header);
+                    $('#dynamicTable').find('tr:gt(0)').remove();
+                    for (var j = 0; j < qty; j++) {
+                        for (var i = 0; i < itemUnits.length; i++) {
+                            // var row = $('<tr></tr>');
+                            // var unitCell = $('<td>' + itemUnits[i].name + '</td>');
+                            // var qtyCell = $('<td>' + (itemUnits[i] * qty) + '</td>');
+                            // row.append(unitCell).append(qtyCell);
+                            // table.append(row);
+                            $('#dynamicTable').append('<tr><td><input type="text" name="addmore[' + i + '][name]" value="'+itemUnits[i].name+'" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][ser]" placeholder="Enter your Serial Number" class="form-control" /></td><td><button type="submit" class="remove-tr text-white bg-red-800 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700">Remove </button></td></tr>');
+                                    
+                        }
+                    }
+                    //$('#dynamicTable').html(table);
                 }
         });       
 

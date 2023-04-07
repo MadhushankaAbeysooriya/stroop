@@ -68,3 +68,4 @@ Route::get('/ajax/getTitle', [ajaxController::class, 'getTitle'])->name('ajax.ge
 Route::get('/ajax/getItemCode', [ajaxController::class, 'getItemCode'])->name('ajax.getItemCode');
 Route::get('/titles/search', [TitleController::class, 'search'])->name('titles.search');
 Route::get('/get-item-serial/{itemCode}', [ajaxController::class, 'getItemSerial'])->name('ajax.getItemSerial');
+Route::get('/get-item-unit/{id}', [ajaxController::class, 'getItemUnits'])->name('ajax.getItemUnits');

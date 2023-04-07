@@ -26,7 +26,7 @@
                 <div class="card-header">
                     <div class="card-title">Add Units - {{ $item->Item_Type }}</div>
                     <div class="card-tools">
-                        <a href="{{ route('item.add_unit') }}" class="btn btn-sm btn-dark">Back</a>
+                        <a href="{{ route('item.add_unit_item_view') }}" class="btn btn-sm btn-dark">Back</a>
                     </div>
                 </div>
 
