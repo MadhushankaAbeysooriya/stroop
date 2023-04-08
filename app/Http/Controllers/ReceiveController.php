@@ -14,6 +14,7 @@ use App\Models\Stock;
 use App\Models\Store;
 use App\Models\Supplier;
 use App\Models\Title;
+use App\Models\ItemSubRelation;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -113,18 +114,28 @@ class ReceiveController extends Controller
         }
 
         if (!empty(request('addmore')[0][0]['ser'])) {            
-            foreach ($request->addmore as $ser) {                
+            foreach ($request->addmore as $ser) {
+                $parent_id = null;                
                 foreach($ser as $i){
                     //dd($i);
-                    SerNo::create([
+                    $ser_create = SerNo::create([
                         'Item_Auto_Id' => $request->Item_Auto_Id, 
                         'stk_Auto_Id' => $recive->id, 
                         'Seri_No' => $i['ser'], 
                         'name' => $i['name'], 
                         'estb_id' => Auth()->user()->estb_id
                     ]);
-                }
-                
+
+                    // set parent_id for the first iteration
+                    if (!$parent_id) {
+                        $parent_id = $ser_create->id;
+                    }
+
+                    ItemSubRelation::create([
+                        'ser_no'=>$ser_create->id,
+                        'parent'=>$parent_id,
+                    ]);
+                }                
             }
         }
 
