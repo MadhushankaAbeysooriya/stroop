@@ -40,7 +40,7 @@ class ajaxController extends Controller
     public function getItemUnits($id)
     {
         //dd($id);
-        $itemunits = ItemUnit::where('item_id',$id)->get();
+        $itemunits = ItemUnit::with('sub_item')->where('item_id',$id)->get();
         //dd(count($itemunits));
 
         return response()->json([

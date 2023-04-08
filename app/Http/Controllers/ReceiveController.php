@@ -62,11 +62,22 @@ class ReceiveController extends Controller
      */
     public function store(ReceiveRequest $request)
     {
-        dd($request);       
+        //dd($request);       
         
-        $recive = Receive::create(['Item_Auto_Id' => $request->Item_Auto_Id, 'quentity' => $request->quentity, 'Issu_date' => $request->Issu_date, 'Issu_remarks' => $request->Issu_remarks, 'Issued_place_id' => 1,
-            'ent_date' => Carbon::now(), 'ent_user_id' => Auth::user()->id, 'Voucher_No' => $request->Voucher_No, 'rec_from' => $request->rec_from, 'warranty' => $request->warranty,
-            'duration' => $request->duration, 'price' => $request->price, 'warranty_act_date' => $request->warranty_act_date, 'Issued_Type' => 0, 'fcolor' => 'red',
+        $recive = Receive::create(['Item_Auto_Id' => $request->Item_Auto_Id, 
+        'quentity' => $request->quentity, 
+        'Issu_date' => $request->Issu_date, 
+        'Issu_remarks' => $request->Issu_remarks, 
+        'Issued_place_id' => 1,
+            'ent_date' => Carbon::now(), 
+            'ent_user_id' => Auth::user()->id, 
+            'Voucher_No' => $request->Voucher_No, 
+            'rec_from' => $request->rec_from, 
+            'warranty' => $request->warranty,
+            'duration' => $request->duration, 
+            'price' => $request->price, 
+            'warranty_act_date' => $request->warranty_act_date, 
+            'Issued_Type' => 0, 'fcolor' => 'red',
             'estb_id' => Auth()->user()->estb_id,
         ]);
 
@@ -98,6 +109,22 @@ class ReceiveController extends Controller
                     'name' => $ser['name'], 
                     'estb_id' => Auth()->user()->estb_id
                 ]);
+            }
+        }
+
+        if (!empty(request('addmore')[0][0]['ser'])) {            
+            foreach ($request->addmore as $ser) {                
+                foreach($ser as $i){
+                    //dd($i);
+                    SerNo::create([
+                        'Item_Auto_Id' => $request->Item_Auto_Id, 
+                        'stk_Auto_Id' => $recive->id, 
+                        'Seri_No' => $i['ser'], 
+                        'name' => $i['name'], 
+                        'estb_id' => Auth()->user()->estb_id
+                    ]);
+                }
+                
             }
         }
 

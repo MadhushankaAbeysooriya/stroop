@@ -182,8 +182,9 @@ class ItemController extends Controller
     {
         //dd($item->id);
         $item_units = ItemUnit::where('item_id',$item->id)->get();
-        //dd($item_units);         
-        return view('item.add_unit_item', compact('item','item_units'));      
+        //dd($item_units);
+        $items = Item::all();         
+        return view('item.add_unit_item', compact('item','item_units','items'));      
     }
     
     public function add_unit(Item $item, Request $request)
@@ -191,7 +192,7 @@ class ItemController extends Controller
         //dd($request);
         ItemUnit::create([
             'item_id'=> $item->id,
-            'name'=>$request->name
+            'name'=>$request->title_no
         ]);         
         return redirect()->route('item.add_unit_item', $item->id)
             ->with('message', 'Item Unit added successfully.');      

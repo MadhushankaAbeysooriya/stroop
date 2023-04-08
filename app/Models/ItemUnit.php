@@ -12,8 +12,13 @@ class ItemUnit extends Model
     protected $table = 'item_units';
     protected $guarded = [];
 
-    public function stores()
+    public function item()
     {
         return $this->hasOne(Item::class, 'id', 'item_id');
+    }
+
+    public function sub_item()
+    {
+        return $this->hasOne(Item::class, 'id', 'name');
     }
 }
