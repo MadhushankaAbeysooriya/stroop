@@ -84,20 +84,20 @@ class ReceiveController extends Controller
 
         $stock = Stock::where('item_id', $request->Item_Auto_Id);
                         //->where('estb_id',Auth()->user()->estb_id);
-        // if(count($stock) > 0){
+        if(count($stock) > 0){
             $stock->update([
                 //'item_id' => $request->Item_Auto_Id, 
                 'qty' => $stock->first()->qty + $request->quentity, 
                 'last_txn_type' => 'in'
             ]);
-        // }else{
-        //     Stock::create([
-        //         'item_id' => $request->Item_Auto_Id,
-        //         'qty' => $request->quentity, 
-        //         'last_txn_type' => 'in',
-        //         'estb_id' => Auth()->user()->estb_id,
-        //     ]);
-        // }
+        }else{
+            Stock::create([
+                'item_id' => $request->Item_Auto_Id,
+                'qty' => $request->quentity, 
+                'last_txn_type' => 'in',
+                //'estb_id' => Auth()->user()->estb_id,
+            ]);
+        }
             
 
         if (!empty(request('addmore')[0]['ser'])) {

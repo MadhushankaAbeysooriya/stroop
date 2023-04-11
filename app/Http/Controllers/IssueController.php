@@ -93,7 +93,8 @@ class IssueController extends Controller
             'Issu_date' => $request->issue_date, 'Issued_place_id' => $request->issued_place_id,
             'Issued_Type' => $request->Issued_Type, 'issu_sig_unit' => $request->issu_sig_unit, 
             'Voucher_No' => $request->Voucher_No, 'fcolor' => $fcolor, 'Issu_remarks' => $request->Issu_remarks,
-            //'ent_date' => Carbon::now(), 'ent_user_id' => Auth::user()->id, 
+            'ent_date' => Carbon::now(), 
+            'ent_user_id' => Auth::user()->id, 
             'rec_from' => 1, 
             'warranty' => 0, 'Is_Issued' => 1, 'duration' => 0, 'price' => 0, 'warranty_act_date' => Carbon::now(),
             'estb_id' => Auth()->user()->estb_id, 'job_no' => $request->card_number,
@@ -116,6 +117,22 @@ class IssueController extends Controller
                 ]);
             }
         }
+
+        if (!empty(request('addmore')[0][0]['ser'])) { 
+            foreach ($request->addmore as $ser) {
+
+                foreach($ser as $i){                    
+                    $ser_no = SerNo::where('Seri_No','=',$i['ser']);
+                    $ser_no->update([
+                        'estb_id' => $request->issu_sig_unit, 
+                        'Is_Issued' => 1, 
+                        'stk_Auto_Id' => $recive->id
+                    ]);
+                }
+            }
+        }
+
+        
 
         return redirect()->route('issue.index')
             ->with('message', 'Issue created successfully.');

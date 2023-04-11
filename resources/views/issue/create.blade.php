@@ -334,64 +334,127 @@
 
         $(document).ready(function () {
 
-            $('#Item_Auto_Id').on('change', function () {
-                    var itemCode = $(this).val();
-                    var isSerial = 0;
-                    getItemCodeIsSerial(itemCode, function(isSerial) {
-                        console.log(isSerial);
-                        
-                        if (isSerial == 1) {
-                            $('#serial-number-field').show();                            
-                        } else {
-                            $('#serial-number-field').hide();
-                        }
-                        
-                        $('#quentity').on('keyup', function () {
-                            console.log('in quentity'+isSerial);
-                            var qty = parseInt($(this).val()) || 0;
-                            if (isSerial == 1) {                                
-                                $('#dynamicTable').find('tr:gt(1)').remove();
-                                for (var i = 1; i < qty; i++) {
-                                    $('#dynamicTable').append('<tr><td><input type="text" name="addmore[' + i + '][name]" placeholder="Enter your Name" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][ser]" placeholder="Enter your Serial Number" class="form-control" /></td><td><button type="submit" class="remove-tr text-white bg-red-800 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700">Remove </button></td></tr>');
-                                }
-                            }
-                        });
-
-                        // Validate each 'ser' input field on submit
-                        $(document).on('submit', '#myForm', function (e) {
-                            console.log('on submit'+isSerial);                            
-                            var qty = parseInt($('#quentity').val()) || 0;
-                            if (isSerial == 1) {
-                                var valid = true;
-                                for (var j = 0; j < qty; j++) {
-                                    var inputField = $('input[name="addmore[' + j + '][ser]"]');
-                                    if (inputField.val() === '') {
-                                        valid = false;
-                                        break;
-                                    }
-                                }
-
-                                if (!valid) {
-                                    e.preventDefault();
-                                    alert('Serial Number cannot be empty.');
-                                    return false;
-                                }
-                            }
-                        });
-                    });
-                });
-
-                function getItemCodeIsSerial(itemCode, callback) {
-                    $.ajax({
-                        url: '{{ route('ajax.getItemSerial', ':id') }}'.replace(':id', itemCode),
-                        type: 'GET',
-                        dataType: 'json', 
-                        success: function(data) {
-                            callback(data.is_serial);
-                        }
-                    });
+$('#Item_Auto_Id').on('change', function () {
+    var itemCode = $(this).val();
+    var isSerial = 0;
+    getItemCodeIsSerial(itemCode, function(isSerial,isUnit) {
+        console.log('ser'+isSerial);
+        console.log('unit'+isUnit);
+        
+        if (isSerial == 1) {
+            $('#serial-number-field').show();                            
+        } else {
+            $('#serial-number-field').hide();
+        }
+        
+        $('#quentity').on('keyup', function () {
+            console.log('in quentity'+isSerial);
+            var qty = parseInt($(this).val()) || 0;
+            if (isSerial == 1 && isUnit == 0) {
+                console.log('is serial 1 and is unit 0');
+                console.log(itemCode);                                
+                $('#dynamicTable').find('tr:gt(1)').remove();
+                for (var i = 1; i < qty; i++) {
+                    $('#dynamicTable').append('<tr><td><input type="text" name="addmore[' + i + '][name]" placeholder="Enter your Name" class="form-control" /></td><td><input type="text" name="addmore[' + i + '][ser]" placeholder="Enter your Serial Number" class="form-control" /></td><td><button type="submit" class="remove-tr text-white bg-red-800 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700">Remove </button></td></tr>');
                 }
+            }
+
+            if (isSerial == 1 && isUnit == 1) {
+                console.log('is serial 1 and is unit 1');
+                console.log(itemCode);
+                var itemUnits = '';
+                itemUnits.length = 0;
+
+                
+                                                
+                getItemUnits(itemCode, function(itemUnits) {
+                    console.log('in getItemUnits');
+                    console.log(itemUnits);
+                    console.log(itemUnits.length);
+                    if(itemUnits.length > 0){                                        
+                        createDynamicTable(itemUnits, qty);
+                        //break;
+                    }else{
+                        alert('Please add Item Units.');
+                        //break;
+                    }
+                });
+            }
         });
+
+        // Validate each 'ser' input field on submit
+        $(document).on('submit', '#myForm', function (e) {
+            console.log('on submit'+isSerial);                            
+            var qty = parseInt($('#quentity').val()) || 0;
+            if (isSerial == 1) {
+                var valid = true;
+                for (var j = 0; j < qty; j++) {
+                    var inputField = $('input[name="addmore[' + j + '][ser]"]');
+                    if (inputField.val() === '') {
+                        valid = false;
+                        break;
+                    }
+                }
+
+                if (!valid) {
+                    e.preventDefault();
+                    alert('Serial Number cannot be empty.');
+                    return false;
+                }
+            }
+        });
+    });
+});
+
+function getItemCodeIsSerial(itemCode, callback) {
+    $.ajax({
+        url: '{{ route('ajax.getItemSerial', ':id') }}'.replace(':id', itemCode),
+        type: 'GET',
+        dataType: 'json', 
+        success: function(data) {
+            // access the 'is_serial' field in the response
+            var isSerial = data.is_serial;
+
+            // access the 'name' field in the response (assuming it was also returned)
+            var isUnit = data.is_unit;
+
+            callback(isSerial,isUnit);
+        }
+    });
+}
+
+function getItemUnits(itemCode, callback) {
+    $.ajax({
+        url: '{{ route('ajax.getItemUnits', ':id') }}'.replace(':id', itemCode),
+        type: 'GET',
+        dataType: 'json', 
+        success: function(data) {
+            // access the 'itemunits' field in the response
+            var itemUnits = data.itemunits;
+            callback(itemUnits);
+        }
+    });
+}
+
+function createDynamicTable(itemUnits, qty) {
+    // var table = $('<table></table>');
+    // var header = $('<tr><th>Item Unit</th><th>Quantity</th></tr>');
+    // table.append(header);
+    $('#dynamicTable').find('tr:gt(0)').remove();
+    for (var j = 0; j < qty; j++) {
+        for (var i = 0; i < itemUnits.length; i++) {
+            // var row = $('<tr></tr>');
+            // var unitCell = $('<td>' + itemUnits[i].name + '</td>');
+            // var qtyCell = $('<td>' + (itemUnits[i] * qty) + '</td>');
+            // row.append(unitCell).append(qtyCell);
+            // table.append(row);
+            $('#dynamicTable').append('<tr><td><input type="text" name="addmore[' + j + '][' + i + '][name]" value="'+itemUnits[i].sub_item.Item_Type+'" class="form-control" /></td><td><input type="text" name="addmore[' + j + '][' + i + '][ser]" placeholder="Enter your Serial Number" class="form-control" /></td><td><button type="submit" class="remove-tr text-white bg-red-800 hover:bg-red-900 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-800 dark:hover:bg-red-700 dark:focus:ring-red-700 dark:border-red-700">Remove </button></td></tr>');
+                    
+        }
+    }
+    //$('#dynamicTable').html(table);
+}
+});
 
         var i = 0;
 
