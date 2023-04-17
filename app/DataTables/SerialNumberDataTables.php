@@ -25,7 +25,20 @@ class SerialNumberDataTables extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->setRowId('id');
+            ->setRowId('id')
+            ->addColumn('estb',function($ser){
+                $owner = 'N/A';
+                if($ser->estb_id != null){
+                    $owner = $ser->estb->place_discription;
+                }
+                return $owner;
+            })
+            ->filterColumn('estb', function ($query, $keyword) {
+                $query->whereHas('estb', function ($query) use ($keyword) {
+                    $query->where('place_discription', 'like', "%{$keyword}%");
+                });
+            })
+            ->rawColumns(['estb']);
     }
 
     /**
@@ -73,12 +86,13 @@ class SerialNumberDataTables extends DataTable
         return [
             Column::make('DT_RowIndex')->title('#')->searchable(false)->orderable(false),
             Column::make('Seri_No')->title("S/N"),
-            Column::make('estb.place_discription')->title("owner"),            
+            Column::make('estb')->title("owner")->searchable(true)->orderable(true),            
             // Column::computed('action')
             //     ->exportable(false)
             //     ->printable(false)
             //     ->width(60)
             //     ->addClass('text-center'),
+            
         ];
     }
 

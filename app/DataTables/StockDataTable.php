@@ -23,10 +23,14 @@ class StockDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addIndexColumn()
-            ->addColumn('action', function ($item) {
-                return '<div class="w-80"></div><a href="' . route('stock.show', $item->id) . '" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="bottom" title="Stock Details"><i class="fa fa-eye"></i></a>';
-            })->rawColumns(['active', 'action', 'establishment']);
+            ->addIndexColumn()            
+            ->setRowAttr([
+                'class' => function ($stock) {
+                    return $stock->qty <= $stock->item->reorder ? 'bg-warning' : '';
+                },
+            ])
+            ;
+            //->rawColumns(['active', 'action', 'establishment', 'rowColor']);
     }
 
     /**
@@ -74,11 +78,11 @@ class StockDataTable extends DataTable
             Column::make('qty')->title("Qty"),
             Column::make('item.reorder')->title("Re-order Level"),
             Column::make('item.comreserve')->title("Commander Reserve"),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
+            // Column::computed('action')
+            //     ->exportable(false)
+            //     ->printable(false)
+            //     ->width(60)
+            //     ->addClass('text-center'),
         ];
     }
 

@@ -1,0 +1,4 @@
+UPDATE m_seri_no
+JOIN m_issue_stock
+ON m_seri_no.Issued_stk_Auto_Id = m_issue_stock.Issued_stk_Auto_Id
+SET m_seri_no.estb_id = m_issue_stock.Issued_place_id;
